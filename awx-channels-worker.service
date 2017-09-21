@@ -1,0 +1,16 @@
+[Unit]
+Description=AWX channels worker service
+After=syslog.target network.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/awx
+Environment=PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
+Environment=AWX_SETTINGS_FILE=/etc/awx/settings.py
+Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
+ExecStart=/opt/awx/bin/awx-manage runworker --only-channels 'websocket.*'
+KillMode=process
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target

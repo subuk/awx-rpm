@@ -1,0 +1,10 @@
+respawn
+respawn limit 10 5
+
+env PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
+env AWX_SETTINGS_FILE=/etc/awx/settings.py
+env PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
+
+script
+    exec su -p awx -s /bin/bash -c 'exec /opt/awx/bin/daphne -b 127.0.0.1 -p 8051 awx.asgi:channel_layer' &>> /var/log/awx/daphne.log
+end script

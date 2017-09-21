@@ -1,0 +1,32 @@
+[Unit]
+Description=AWX web service
+After=syslog.target network.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/awx
+Environment=PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
+Environment=AWX_SETTINGS_FILE=/etc/awx/settings.py
+Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
+
+ExecStart=/opt/awx/bin/uwsgi \
+        --socket 127.0.0.1:8050 \
+        --module=awx.wsgi:application \
+        --logto=/var/log/awx/web.log \
+        --die-on-term \
+        --vacuum \
+        --uid awx \
+        --gid awx \
+        --processes=5 \
+        --harakiri=120 \
+        --no-orphans \
+        --master \
+        --max-requests=1000 \
+        --master-fifo=/var/lib/awx/awxfifo \
+        --lazy-apps -b 32768
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
