@@ -11,7 +11,7 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 1.0.0.505
+Version: 1.0.0.550
 Release: 1%{dist}
 Source0: https://dl.bintray.com/subuk/awx-sources/awx-%{version}.tar.gz
 Source1: settings.py.dist
@@ -250,6 +250,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0644, root, root) %{_unitdir}/awx-daphne.service
 %attr(0644, root, root) %{_unitdir}/awx-web.service
 %endif
+
+%changelog
+* Wed Sep 21 2017 00:12:57 +0300 Matvey Kruglov <kubuzzzz@gmail.com> 1.0.0.550-1
+- New upstream version
 
 %changelog
 * Wed Sep 21 2017 14:44:23 +0300 Matvey Kruglov <kubuzzzz@gmail.com> 1.0.0.505-1
