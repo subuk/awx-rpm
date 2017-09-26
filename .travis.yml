@@ -1,0 +1,16 @@
+language: generic
+
+cache:
+  directories:
+    - /tmp/awx-rpmbuild-cache
+
+services:
+  - docker
+
+matrix:
+  include:
+    - env: BUILD_DISTRO=amazonlinux-2017.03
+    - env: BUILD_DISTRO=centos-7
+
+script:
+  - ./build.sh ${BUILD_DISTRO}
