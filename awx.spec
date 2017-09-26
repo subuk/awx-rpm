@@ -42,6 +42,7 @@ BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel li
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 Requires: git subversion curl
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
+%{?systemd_requires}
 
 %description
 %{summary}
@@ -149,12 +150,12 @@ done
 
 %post
 %if 0%{?el7}
-%systemd_postun awx-cbreceiver
-%systemd_postun awx-celery-beat
-%systemd_postun awx-celery-worker
-%systemd_postun awx-channels-worker
-%systemd_postun awx-daphne
-%systemd_postun awx-web
+%systemd_post awx-cbreceiver
+%systemd_post awx-celery-beat
+%systemd_post awx-celery-worker
+%systemd_post awx-channels-worker
+%systemd_post awx-daphne
+%systemd_post awx-web
 %endif
 
 %if 0%{?amzn}
@@ -194,6 +195,16 @@ if [ $1 -eq 0 ]; then
     /sbin/chkconfig --del awx-daphne
     /sbin/chkconfig --del awx-web
 fi
+%endif
+
+%postun
+%if 0%{?el7}
+%systemd_postun awx-cbreceiver
+%systemd_postun awx-celery-beat
+%systemd_postun awx-celery-worker
+%systemd_postun awx-channels-worker
+%systemd_postun awx-daphne
+%systemd_postun awx-web
 %endif
 
 %clean
