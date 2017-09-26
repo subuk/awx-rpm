@@ -1,5 +1,7 @@
 # AWX-RPM
 
+[![Build Status](https://travis-ci.org/subuk/awx-rpm.svg?branch=master)](https://travis-ci.org/subuk/awx-rpm)
+
 Fat RPMs for ansible-awx project.
 
 Tested distributions:
