@@ -31,6 +31,7 @@ Source5: awx-channels-worker.service
 Source6: awx-daphne.service
 Source7: awx-web.service
 %endif
+Source8: nginx.conf.example
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -144,6 +145,9 @@ for script_name in awx-manage ansible ansible-playbook daphne;do
     sed -i '1c#!%{_prefix}/bin/python' %{buildroot}%{_prefix}/bin/$script_name
 done
 
+# Install docs
+cp %{_sourcedir}/nginx.conf.example ./
+
 %pre
 /usr/bin/getent group %{service_group} >/dev/null || /usr/sbin/groupadd --system %{service_group}
 /usr/bin/getent passwd %{service_user} >/dev/null || /usr/sbin/useradd --no-create-home --system -g %{service_group} --home-dir %{service_homedir} -s /sbin/nologin %{service_user}
@@ -212,6 +216,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(0644, root, root, 0755)
+%doc nginx.conf.example
 %attr(0755, root, root) %{_prefix}/bin/uwsgi
 %attr(0755, root, root) %{_prefix}/bin/python
 %attr(0755, root, root) %{_prefix}/bin/awx-manage
