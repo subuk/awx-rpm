@@ -20,7 +20,7 @@ Tested distributions:
     cd awx
     git clone git@github.com:ansible/awx-logos.git
 
-    docker run -v `pwd`:/awx --rm -it centos:7 /bin/bash <<EOF
+    docker run -v `pwd`:/awx --rm -i centos:7 /bin/bash <<EOF
     yum install -y epel-release && yum install -y bzip2 gcc-c++ git gettext make python-pip
     curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
     yum install -y nodejs
