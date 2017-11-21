@@ -140,7 +140,7 @@ EOF
 
 # Export usefull scripts
 mv embedded/bin/uwsgi %{buildroot}%{_prefix}/bin/uwsgi
-for script_name in awx-manage ansible ansible-playbook daphne;do
+for script_name in awx-manage ansible ansible-playbook daphne celery;do
     mv embedded/bin/$script_name %{buildroot}%{_prefix}/bin/$script_name
     sed -i '1c#!%{_prefix}/bin/python' %{buildroot}%{_prefix}/bin/$script_name
 done
@@ -219,6 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc nginx.conf.example
 %attr(0755, root, root) %{_prefix}/bin/uwsgi
 %attr(0755, root, root) %{_prefix}/bin/python
+%attr(0755, root, root) %{_prefix}/bin/celery
 %attr(0755, root, root) %{_prefix}/bin/awx-manage
 %attr(0755, root, root) %{_prefix}/bin/daphne
 %attr(0755, root, root) %{_prefix}/bin/ansible

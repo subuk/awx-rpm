@@ -9,7 +9,7 @@ EnvironmentFile=-/etc/sysconfig/awx
 Environment=PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
 Environment=AWX_SETTINGS_FILE=/etc/awx/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
-ExecStart=/opt/awx/bin/awx-manage celery worker -l info --autoscale=4 -Ofair -Q tower_scheduler,tower_broadcast_all,tower,%H -n celery@%H
+ExecStart=/opt/awx/bin/celery worker -A awx -l info --autoscale=4 -Ofair -Q tower_scheduler,tower_broadcast_all,tower,%H -n celery@%H
 KillMode=process
 Restart=on-failure
 RestartSec=2s
