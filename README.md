@@ -40,7 +40,9 @@ Install rabbitmq and postgresql96 server (example for centos7)
     yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
     yum install -y rabbitmq-server postgresql96-server
     /usr/pgsql-9.6/bin/postgresql96-setup initdb
+    systemctl enable rabbitmq-server
     systemctl start rabbitmq-server
+    systemctl enable postgresql-9.6
     systemctl start postgresql-9.6
 
 Create postgresql database and user for awx
