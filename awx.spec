@@ -11,7 +11,7 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 1.0.0.505
+Version: 1.0.1.225
 Release: 1%{dist}
 Source0: https://github.com/subuk/awx-rpm/releases/download/v%{version}/awx-%{version}.tar.gz
 Source1: settings.py.dist
