@@ -19,7 +19,6 @@ Tested distributions:
     git clone git@github.com:ansible/awx.git
     cd awx
     git clone git@github.com:ansible/awx-logos.git
-    cd ../
 
     docker run -v `pwd`:/awx --rm -i centos:7 /bin/bash <<EOF
     yum install -y epel-release && yum install -y bzip2 gcc-c++ git gettext make python-pip
