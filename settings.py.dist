@@ -88,16 +88,7 @@ DATABASES = {
     }
 }
 
-# asgi_rabbitmq
-#CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
-
-# asgi_amqp
-CELERY_BROKER_URL = 'amqp://{}:{}@{}:{}/{}'.format(
-    os.getenv("RABBITMQ_USER", None),
-    os.getenv("RABBITMQ_PASSWORD", None),
-    os.getenv("RABBITMQ_HOST", None),
-    os.getenv("RABBITMQ_PORT", "5672"),
-    os.getenv("RABBITMQ_VHOST", "tower"))
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
 
 # asgi_rabbitmq
 #CHANNEL_LAYERS = {
