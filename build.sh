@@ -17,10 +17,10 @@ case "$1" in
         exit 1
 esac
 
-exec docker run --rm -it \
-    -v `pwd`:/source \
-    -v `pwd`/result:/result \
+exec docker run --rm -i \
+    -v /home/build/awx-rpm-build/awx-rpm:/source \
+    -v /home/build/awx-rpm-build/awx-rpm/result:/result \
     -v /tmp/awx-rpmbuild-cache:/cache \
     -v $YUM_CONFIG:/etc/yum.conf \
     -v $BUILD_SCRIPT:/build.sh \
-    $DOCKER_IMAGE /build.sh awx.spec
+    $DOCKER_IMAGE /build.sh awx-build.spec
