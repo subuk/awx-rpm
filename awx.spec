@@ -41,6 +41,7 @@ BuildRequires: gcc gcc-c++ git
 BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
+%{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 Requires: git subversion curl
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
