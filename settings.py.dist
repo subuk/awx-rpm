@@ -21,7 +21,7 @@ SECRET_KEY = get_secret()
 
 ALLOWED_HOSTS = ['*']
 
-INTERNAL_API_URL = 'http://127.0.0.1:80'
+INTERNAL_API_URL = 'http://127.0.0.1:8052'
 
 AWX_TASK_ENV['HOME'] = '/var/lib/awx'
 
@@ -35,6 +35,9 @@ CELERY_QUEUES += (Queue(CLUSTER_HOST_ID, Exchange(CLUSTER_HOST_ID), routing_key=
 CELERY_ROUTES['awx.main.tasks.cluster_node_heartbeat'] = {'queue': CLUSTER_HOST_ID, 'routing_key': CLUSTER_HOST_ID}
 CELERY_ROUTES['awx.main.tasks.purge_old_stdout_files'] = {'queue': CLUSTER_HOST_ID, 'routing_key': CLUSTER_HOST_ID}
 
+# Needed for http login
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 ###############################################################################
 # EMAIL SETTINGS
