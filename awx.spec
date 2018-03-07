@@ -42,7 +42,7 @@ BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel li
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 %{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
-Requires: git subversion curl
+Requires: git subversion curl bubblewrap
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -146,6 +146,9 @@ for script_name in awx-manage ansible ansible-playbook daphne celery;do
     sed -i '1c#!%{_prefix}/bin/python' %{buildroot}%{_prefix}/bin/$script_name
 done
 
+# Create Virtualenv folder
+mkdir -p %{buildroot}/var/lib/awx/venv
+
 # Install docs
 cp %{_sourcedir}/nginx.conf.example ./
 
@@ -216,7 +219,7 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(0644, root, root, 0755)
+%defattr(0644, awx, awx, 0755)
 %doc nginx.conf.example
 %attr(0755, root, root) %{_prefix}/bin/uwsgi
 %attr(0755, root, root) %{_prefix}/bin/python
@@ -259,6 +262,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Mar 07 2018 14:14:14 +0000 Martin Juhl <mj@casalogic.dk> 1.0.4.54
+- New Git version build
+
 * Tue Mar 06 2018 21:14:12 +0000 Martin Juhl <mj@casalogic.dk> 1.0.4.53
 - New Git version build
 
