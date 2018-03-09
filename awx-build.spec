@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: ¤VERSION¤
+Version: 1.0.4.70
 Release: 1%{dist}
-Source0: /dist/¤SOURCE¤
+Source0: /dist/awx-1.0.4.70.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
