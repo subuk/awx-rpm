@@ -56,7 +56,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 # Setup build environment
 virtualenv _buildenv/
 _buildenv/bin/pip install -U wheel
-_buildenv/bin/pip install -U pip
+_buildenv/bin/pip install -U pip==9.0.1
 _buildenv/bin/pip install -U setuptools
 
 export PYTHONPATH="`pwd`/embedded/lib/python2.7/site-packages:`pwd`/embedded/lib64/python2.7/site-packages"
