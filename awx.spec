@@ -2,7 +2,7 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.4.3.0
+%define ansible_version 2.5.0.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
