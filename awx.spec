@@ -228,12 +228,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_prefix}/bin/daphne
 %attr(0755, root, root) %{_prefix}/bin/ansible
 %attr(0755, root, root) %{_prefix}/bin/ansible-playbook
-%{_prefix}/static
-%{_prefix}/embedded/lib
-%{_prefix}/embedded/lib64
+%attr(0755, awx, awx) %{_prefix}/static
+%attr(0755, awx, awx) %{_prefix}/embedded/lib
+%attr(0755, awx, awx) %{_prefix}/embedded/lib64
+%attr(0755, awx, awx) %{_prefix}/embedded
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
-%dir %attr(0750, root, %{service_group}) %{service_logdir}
+%dir %attr(0770, root, %{service_group}) %{service_logdir}
 %config(noreplace) %{service_configdir}/settings.py
 
 %if 0%{?amzn}
