@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 1.0.5.19
+Version: 1.0.5.20
 Release: 1%{dist}
-Source0: /dist/awx-1.0.5.19.tar.gz
+Source0: /dist/awx-1.0.5.20.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -228,12 +228,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_prefix}/bin/daphne
 %attr(0755, root, root) %{_prefix}/bin/ansible
 %attr(0755, root, root) %{_prefix}/bin/ansible-playbook
-%{_prefix}/static
-%{_prefix}/embedded/lib
-%{_prefix}/embedded/lib64
+%attr(0755, awx, awx) %{_prefix}/static
+%attr(0755, awx, awx) %{_prefix}/embedded/lib
+%attr(0755, awx, awx) %{_prefix}/embedded/lib64
+%attr(0755, awx, awx) %{_prefix}/embedded
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
-%dir %attr(0750, root, %{service_group}) %{service_logdir}
+%dir %attr(0770, root, %{service_group}) %{service_logdir}
 %config(noreplace) %{service_configdir}/settings.py
 
 %if 0%{?amzn}
@@ -262,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Apr 03 2018 23:35:33 +0000 Martin Juhl <mj@casalogic.dk> 1.0.5.20
+- New Git version build: 1.0.5.20
 * Thu Mar 29 2018 00:19:40 +0000 Martin Juhl <mj@casalogic.dk> 1.0.5.19
 - New Git version build: 1.0.5.19
 * Wed Mar 28 2018 13:08:48 +0000 Martin Juhl <mj@casalogic.dk> 1.0.5.14
