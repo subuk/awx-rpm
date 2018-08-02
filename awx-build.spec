@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 1.0.6.42
+Version: 1.0.6.43
 Release: 1%{dist}
-Source0: /dist/awx-1.0.6.42.tar.gz
+Source0: /dist/awx-1.0.6.43.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Aug 02 2018 20:10:18 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.43
+- New Git version build: 1.0.6.43
 * Thu Aug 02 2018 17:39:03 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.42
 - New Git version build: 1.0.6.42
 * Thu Jul 26 2018 16:37:26 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.41
