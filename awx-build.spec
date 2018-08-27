@@ -2,18 +2,18 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.5.0.0
+%define ansible_version 2.6.3.0
 %define service_user awx
-%define service_group awx
+%define service_group awx6
 %define service_homedir /var/lib/awx
 %define service_logdir /var/log/awx
 %define service_configdir /etc/awx
 
 Summary: Ansible AWX
 Name: awx
-Version: 1.0.7.3
+Version: 1.0.7.4
 Release: 1%{dist}
-Source0: /dist/awx-1.0.7.3.tar.gz
+Source0: /dist/awx-1.0.7.4.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -130,6 +130,9 @@ for service in awx-cbreceiver awx-celery-beat awx-celery-worker awx-channels-wor
     cp %{_sourcedir}/${service}.service %{buildroot}%{_unitdir}/
 done
 %endif
+
+# Create Galaxy symlink
+ln -s /opt/awx/bin/ansible-galaxy/ansible %{buildroot}/opt/awx/bin/ansible-galaxy 
 
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
@@ -263,6 +266,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Aug 27 2018 21:37:37 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
+- New Git version build: 1.0.7.4
 * Fri Aug 17 2018 23:43:22 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.3
 - New Git version build: 1.0.7.3
 * Fri Aug 10 2018 04:08:26 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.47
