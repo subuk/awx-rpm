@@ -132,7 +132,7 @@ done
 %endif
 
 # Create Galaxy symlink
-ln -s /opt/awx/bin/ansible-galaxy/ansible %{buildroot}/opt/awx/bin/ansible-galaxy 
+ln -s /opt/awx/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy 
 
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
