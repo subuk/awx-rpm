@@ -231,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_prefix}/bin/daphne
 %attr(0755, root, root) %{_prefix}/bin/ansible
 %attr(0755, root, root) %{_prefix}/bin/ansible-playbook
+%attr(0755, root, root) %{_prefix}/bin/ansible-galaxy
 %attr(0755, awx, awx) %{_prefix}/static
 %attr(0755, awx, awx) %{_prefix}/embedded/lib
 %attr(0755, awx, awx) %{_prefix}/embedded/lib64
@@ -266,8 +267,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Tue Aug 28 2018 06:55:37 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
-- New Git version build: 1.0.7.4
 * Fri Aug 17 2018 23:43:22 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.3
 - New Git version build: 1.0.7.3
 * Fri Aug 10 2018 04:08:26 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.47
