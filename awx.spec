@@ -2,7 +2,7 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.5.0.0
+%define ansible_version 2.6.3.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
@@ -267,8 +267,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Tue Aug 28 2018 08:15:29 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
-- New Git version build: 1.0.7.4
 * Fri Aug 17 2018 23:43:22 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.3
 - New Git version build: 1.0.7.3
 * Fri Aug 10 2018 04:08:26 +0000 Martin Juhl <mj@casalogic.dk> 1.0.6.47
