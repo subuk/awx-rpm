@@ -132,7 +132,7 @@ done
 %endif
 
 # Create Galaxy symlink
-ln -s /opt/awx/bin/ansible-galaxy/ansible %{buildroot}/opt/awx/bin/ansible-galaxy 
+ln -s /opt/awx/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy 
 
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
@@ -266,7 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Mon Aug 27 2018 21:37:37 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
+* Tue Aug 28 2018 06:55:37 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
 - New Git version build: 1.0.7.4
 * Fri Aug 17 2018 23:43:22 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.3
 - New Git version build: 1.0.7.3
