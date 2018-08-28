@@ -2,9 +2,9 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.6.3.0
+%define ansible_version 2.5.0.0
 %define service_user awx
-%define service_group awx6
+%define service_group awx
 %define service_homedir /var/lib/awx
 %define service_logdir /var/log/awx
 %define service_configdir /etc/awx
@@ -132,7 +132,7 @@ done
 %endif
 
 # Create Galaxy symlink
-ln -s /opt/awx/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy 
+ln -s /usr/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy 
 
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
@@ -231,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0755, root, root) %{_prefix}/bin/daphne
 %attr(0755, root, root) %{_prefix}/bin/ansible
 %attr(0755, root, root) %{_prefix}/bin/ansible-playbook
+%attr(0755, root, root) %{_prefix}/bin/ansible-galaxy
 %attr(0755, awx, awx) %{_prefix}/static
 %attr(0755, awx, awx) %{_prefix}/embedded/lib
 %attr(0755, awx, awx) %{_prefix}/embedded/lib64
@@ -266,7 +267,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Tue Aug 28 2018 06:55:37 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
+* Tue Aug 28 2018 08:15:29 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.4
 - New Git version build: 1.0.7.4
 * Fri Aug 17 2018 23:43:22 +0000 Martin Juhl <mj@casalogic.dk> 1.0.7.3
 - New Git version build: 1.0.7.3
