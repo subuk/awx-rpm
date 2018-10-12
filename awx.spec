@@ -1,3 +1,4 @@
+%define  debug_package %{nil}
 %define _prefix /opt/awx
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
