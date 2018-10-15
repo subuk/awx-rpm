@@ -43,7 +43,7 @@ BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel li
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 %{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
-Requires: git subversion curl bubblewrap python2-bcrypt
+Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
