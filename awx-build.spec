@@ -12,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 2.0.1
+Version: 2.0.2.0
 Release: 1%{dist}
-Source0: /dist/awx-2.0.1.tar.gz
+Source0: /dist/awx-2.0.2.0.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -43,7 +43,7 @@ BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel li
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 %{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
-Requires: git subversion curl bubblewrap
+Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -268,6 +268,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Nov 01 2018 15:08:07 +0000 Martin Juhl <mj@casalogic.dk> 2.0.2.0
+- New Git version build: 2.0.2.0
 * Fri Oct 12 2018 09:43:14 +0000 Martin Juhl <mj@casalogic.dk> 2.0.1
 - New Git version build: 2.0.1
 * Thu Oct 11 2018 13:51:00 +0000 Martin Juhl <mj@casalogic.dk> 2.0.1
