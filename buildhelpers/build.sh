@@ -6,7 +6,7 @@ SPECFILE="/source/$1"
 
 yum install -y rpmdevtools yum-utils fakeroot
 
-useradd -s /bin/bash builder
+useradd -s /bin/bash builder || true
 chown builder. /cache -R
 
 pushd /source
