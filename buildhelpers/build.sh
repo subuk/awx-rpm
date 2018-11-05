@@ -26,6 +26,7 @@ cat > ~/.rpmmacros <<EOT
 EOT
 
 mkdir -p /tmp/buildd/{BUILD,BUILDROOT,RPMS,SPECS,SRPMS}
+
 ln -s /source /tmp/buildd/SOURCES
 
 fakeroot-sysv rpmbuild -ba $SPECFILE
