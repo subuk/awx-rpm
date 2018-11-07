@@ -11,7 +11,7 @@ Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
 ExecStart=/opt/awx/bin/uwsgi \
         --socket 127.0.0.1:8050 \
         --module=awx.wsgi:application \
-        --logto=/var/log/awx/web.log \
+        --logto=/var/log/tower/web.log \
         --die-on-term \
         --vacuum \
         --uid awx \
