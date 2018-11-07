@@ -26,8 +26,7 @@ Source7: awx-web.upstart
 %endif
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
-Source3: awx-celery-beat.service
-Source4: awx-celery-worker.service
+Source3: awx-dispatcher.service
 Source5: awx-channels-worker.service
 Source6: awx-daphne.service
 Source7: awx-web.service
@@ -127,7 +126,7 @@ done
 %if 0%{?el7}
 # Install systemd configuration
 mkdir -p %{buildroot}%{_unitdir}
-for service in awx-cbreceiver awx-celery-beat awx-celery-worker awx-channels-worker awx-daphne awx-web; do
+for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web; do
     cp %{_sourcedir}/${service}.service %{buildroot}%{_unitdir}/
 done
 %endif
@@ -163,8 +162,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 %post
 %if 0%{?el7}
 %systemd_post awx-cbreceiver
-%systemd_post awx-celery-beat
-%systemd_post awx-celery-worker
+%systemd_post awx-dispatcher
 %systemd_post awx-channels-worker
 %systemd_post awx-daphne
 %systemd_post awx-web
@@ -184,8 +182,7 @@ fi
 %preun
 %if 0%{?el7}
 %systemd_preun awx-cbreceiver
-%systemd_preun awx-celery-beat
-%systemd_preun awx-celery-worker
+%systemd_preun awx-dispatcher
 %systemd_preun awx-channels-worker
 %systemd_preun awx-daphne
 %systemd_preun awx-web
@@ -212,8 +209,7 @@ fi
 %postun
 %if 0%{?el7}
 %systemd_postun awx-cbreceiver
-%systemd_postun awx-celery-beat
-%systemd_postun awx-celery-worker
+%systemd_postun awx-dispatcher
 %systemd_postun awx-channels-worker
 %systemd_postun awx-daphne
 %systemd_postun awx-web
@@ -260,8 +256,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %if 0%{?el7}
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
-%attr(0644, root, root) %{_unitdir}/awx-celery-beat.service
-%attr(0644, root, root) %{_unitdir}/awx-celery-worker.service
+%attr(0644, root, root) %{_unitdir}/awx-dispatcher.service
 %attr(0644, root, root) %{_unitdir}/awx-channels-worker.service
 %attr(0644, root, root) %{_unitdir}/awx-daphne.service
 %attr(0644, root, root) %{_unitdir}/awx-web.service
