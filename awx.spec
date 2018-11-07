@@ -7,7 +7,7 @@
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
-%define service_logdir /var/log/awx
+%define service_logdir /var/log/tower
 %define service_configdir /etc/awx
 
 Summary: Ansible AWX
@@ -101,7 +101,7 @@ mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo %{version} > %{buildroot}%{service_homedir}/.tower_version
+echo ¤SHORT_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
 mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
