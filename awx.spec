@@ -13,7 +13,7 @@
 Summary: Ansible AWX
 Name: awx
 Version: ¤VERSION¤
-Release: 1%{dist}
+Release: ¤RELEASE_VERSION¤%{dist}
 Source0: /dist/¤SOURCE¤
 Source1: settings.py.dist
 %if 0%{?amzn}
