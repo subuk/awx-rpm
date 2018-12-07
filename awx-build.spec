@@ -3,7 +3,7 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.6.6.0
+%define ansible_version 2.7.4.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
@@ -12,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 2.1.1.23
-Release: 1%{dist}
-Source0: /dist/awx-2.1.1.23.tar.gz
+Version: 2.1.1.27
+Release: 2%{dist}
+Source0: /dist/awx-2.1.1.27.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -100,7 +100,7 @@ mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 2.1.1 > %{buildroot}%{service_homedir}/.tower_version
+echo 2.1.0 > %{buildroot}%{service_homedir}/.tower_version
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
 mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Dec 07 2018 09:55:25 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.27
+- New Git version build: 2.1.1.27
 * Thu Dec 06 2018 14:47:37 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.23
 - New Git version build: 2.1.1.23
 * Tue Dec 04 2018 23:22:48 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.21
