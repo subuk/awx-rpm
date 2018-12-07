@@ -100,7 +100,7 @@ mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo ¤SHORT_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
+echo ¤TOWER_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
 mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
