@@ -12,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 2.1.1.40
+Version: 2.1.1.42
 Release: 1%{dist}
-Source0: /dist/awx-2.1.1.40.tar.gz
+Source0: /dist/awx-2.1.1.42.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -100,7 +100,7 @@ mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 2.1.0 > %{buildroot}%{service_homedir}/.tower_version
+echo 2.1.1 > %{buildroot}%{service_homedir}/.tower_version
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
 mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Dec 11 2018 17:58:57 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.42
+- New Git version build: 2.1.1.42
 * Mon Dec 10 2018 16:58:41 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.40
 - New Git version build: 2.1.1.40
 * Mon Dec 10 2018 01:13:38 +0000 Martin Juhl <mj@casalogic.dk> 2.1.1.0
