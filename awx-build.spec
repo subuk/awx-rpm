@@ -3,7 +3,7 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version 2.7.4.0
+%define ansible_version 2.7.5.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
@@ -12,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 2.1.2.9
+Version: 2.1.2.13
 Release: 1%{dist}
-Source0: /dist/awx-2.1.2.9.tar.gz
+Source0: /dist/awx-2.1.2.13.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Dec 14 2018 20:00:49 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.13
+- New Git version build: 2.1.2.13
 * Thu Dec 13 2018 18:29:17 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.9
 - New Git version build: 2.1.2.9
 * Thu Dec 13 2018 13:28:34 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.7
