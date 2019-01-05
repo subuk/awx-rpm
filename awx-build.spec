@@ -13,7 +13,7 @@
 Summary: Ansible AWX
 Name: awx
 Version: 2.1.2.36
-Release: 2%{dist}
+Release: 3%{dist}
 Source0: /dist/awx-2.1.2.36.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
@@ -100,7 +100,7 @@ mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 2.1.2.36 > %{buildroot}%{service_homedir}/.tower_version
+echo 2.1.2 > %{buildroot}%{service_homedir}/.tower_version
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
 mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 05 2019 01:21:20 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
+- New Git version build: 2.1.2.36
 * Sat Jan 05 2019 00:56:33 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
 - New Git version build: 2.1.2.36
 * Sat Jan 05 2019 00:35:25 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
