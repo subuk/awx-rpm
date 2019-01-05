@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jan 05 2019 00:35:25 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
+- New Git version build: 2.1.2.36
 * Fri Jan 04 2019 23:25:59 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
 - New Git version build: 2.1.2.36
 * Wed Jan 02 2019 19:32:59 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.34
