@@ -12,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: awx
-Version: 2.1.2.38
+Version: 2.1.2.40
 Release: 1%{dist}
-Source0: /dist/awx-2.1.2.38.tar.gz
+Source0: /dist/awx-2.1.2.40.tar.gz
 Source1: settings.py.dist
 %if 0%{?amzn}
 Source2: awx-cbreceiver.upstart
@@ -263,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Fri Jan 11 2019 13:28:36 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.40
+- New Git version build: 2.1.2.40
 * Mon Jan 07 2019 19:58:42 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.38
 - New Git version build: 2.1.2.38
 * Sat Jan 05 2019 01:21:20 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.36
