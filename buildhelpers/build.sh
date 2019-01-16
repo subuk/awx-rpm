@@ -4,7 +4,7 @@ set -x
 
 SPECFILE="/source/$1"
 
-yum install -y rpmdevtools yum-utils fakeroot
+yum install -y rpmdevtools yum-utils fakeroot centos-release-scl
 
 useradd -s /bin/bash builder || true
 chown builder. /cache -R
