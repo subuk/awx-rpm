@@ -38,11 +38,11 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
 Vendor: AWX
 Prefix: %{_prefix}
 BuildRequires: gcc gcc-c++ git
-BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel
+iBuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip.noarch
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 %{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
-Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl
+Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl rh-python36-python
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -54,12 +54,15 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 
 %build
 # Setup build environment
-virtualenv _buildenv/
-_buildenv/bin/pip install -U wheel
-_buildenv/bin/pip install -U pip==9.0.1
-_buildenv/bin/pip install -U setuptools
+scl enable rh-python36 "virtualenv _buildenv/"
 
-export PYTHONPATH="`pwd`/embedded/lib/python2.7/site-packages:`pwd`/embedded/lib64/python2.7/site-packages"
+scl enable rh-python36 "_buildenv/bin/pip install -U wheel"
+#_buildenv/bin/pip install -U pip==9.0.1
+scl enable rh-python36 "_buildenv/bin/pip install -U setuptools"
+
+export PYTHONPATH="`pwd`/embedded/lib/python3.6/site-packages:`pwd`/embedded/lib64/python3.6/site-packages"
+
+scl enable rh-python36 bash
 
 # Install dependencies
 cat requirements/requirements_ansible.txt requirements/requirements_ansible_git.txt | \
@@ -71,10 +74,10 @@ _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`p
 _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ .
 
 # Fix nested packages
-touch embedded/lib64/python2.7/site-packages/zope/__init__.py
-touch embedded/lib/python2.7/site-packages/jaraco/__init__.py
-touch embedded/lib64/python2.7/site-packages/dm/__init__.py
-touch embedded/lib64/python2.7/site-packages/dm/xmlsec/__init__.py
+touch embedded/lib64/python3.6/site-packages/zope/__init__.py
+touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
+touch embedded/lib64/python3.6/site-packages/dm/__init__.py
+touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
 
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
@@ -137,7 +140,7 @@ ln -s /usr/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
 #!/bin/sh
-export PYTHONPATH="%{_prefix}/embedded/lib/python2.7/site-packages:%{_prefix}/embedded/lib64/python2.7/site-packages"
+export PYTHONPATH="%{_prefix}/embedded/lib/python3.6/site-packages:%{_prefix}/embedded/lib64/python2.7/site-packages"
 export AWX_SETTINGS_FILE=/etc/awx/settings.py
 exec %{?amzn:python27}%{?el7:python2} "$@"
 EOF
@@ -263,6 +266,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 16 2019 22:59:19 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Wed Jan 16 2019 22:23:41 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Tue Jan 15 2019 18:28:18 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.59
