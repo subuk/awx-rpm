@@ -38,7 +38,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
 Vendor: AWX
 Prefix: %{_prefix}
 BuildRequires: gcc gcc-c++ git
-BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip.noarch
+BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip
 %{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
 %{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
 %{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
@@ -266,6 +266,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 16 2019 23:14:55 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:11:23 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:08:25 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75

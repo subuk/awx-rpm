@@ -65,10 +65,14 @@ export PYTHONPATH="`pwd`/embedded/lib/python3.6/site-packages:`pwd`/embedded/lib
 scl enable rh-python36 bash
 
 # Install dependencies
-cat requirements/requirements_ansible.txt requirements/requirements_ansible_git.txt | \
-    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
-cat requirements/requirements.txt requirements/requirements_git.txt | \
-    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
+#cat requirements/requirements_ansible.txt requirements/requirements_ansible_git.txt | \
+#    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
+#cat requirements/requirements.txt requirements/requirements_git.txt | \
+#    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
+
+export CFLAGS="-DXMLSEC_NO_SIZE_T" 
+VENV_BASE=/var/lib/awx/venv make requirements_ansible
+VENV_BASE=/var/lib/awx/venv make requirements_awx
 
 _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}
 _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ .
@@ -266,6 +270,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 16 2019 23:14:55 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:11:23 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:08:25 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
