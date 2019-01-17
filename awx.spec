@@ -92,7 +92,7 @@ EOF
 export DJANGO_SETTINGS_MODULE="_awx_rpmbuild_collectstatic_settings"
 export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
-embedded/bin/awx-manage collectstatic --noinput --clear
+scl enable rh-python36 "embedded/bin/awx-manage collectstatic --noinput --clear"
 
 # Cleanup
 unset PYTHONPATH
@@ -145,7 +145,7 @@ cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
 #!/bin/sh
 export PYTHONPATH="%{_prefix}/embedded/lib/python3.6/site-packages:%{_prefix}/embedded/lib64/python2.7/site-packages"
 export AWX_SETTINGS_FILE=/etc/awx/settings.py
-exec %{?amzn:python27}%{?el7:python2} "$@"
+exec %{?el7:python3} "$@"
 EOF
 
 # Export usefull scripts
@@ -269,6 +269,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 06:45:28 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 06:43:54 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 01:34:56 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
