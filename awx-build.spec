@@ -82,6 +82,9 @@ scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,ps
 #touch embedded/lib64/python3.6/site-packages/dm/__init__.py
 #touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
 
+# Install django
+scl enable rh-python36 "_buildenv/bin/pip3 install Django"
+
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
 from awx.settings.defaults import *
@@ -269,6 +272,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 13:15:48 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 12:51:30 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 06:45:28 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
