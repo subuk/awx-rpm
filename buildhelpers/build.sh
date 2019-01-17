@@ -6,6 +6,8 @@ SPECFILE="/source/$1"
 
 yum install -y rpmdevtools yum-utils fakeroot centos-release-scl
 
+ln -s /usr/bin/python36 /usr/bin/python3
+
 useradd -s /bin/bash builder || true
 chown builder. /cache -R
 

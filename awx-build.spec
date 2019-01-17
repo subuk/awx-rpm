@@ -71,8 +71,8 @@ scl enable rh-python36 bash
 #    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
 
 export CFLAGS="-DXMLSEC_NO_SIZE_T" 
-VENV_BASE=/var/lib/awx/venv make requirements_ansible
-VENV_BASE=/var/lib/awx/venv make requirements_awx
+VENV_BASE=`pwd`/embedded/ make requirements_ansible
+VENV_BASE=`pwd`/embedded/ make requirements_awx
 
 _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}
 _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ .
@@ -270,6 +270,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Wed Jan 16 2019 23:52:46 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:46:16 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:27:19 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
