@@ -60,7 +60,7 @@ scl enable rh-python36 "_buildenv/bin/pip3 install -U wheel"
 #_buildenv/bin/pip install -U pip==9.0.1
 scl enable rh-python36 "_buildenv/bin/pip3 install -U setuptools"
 
-export PYTHONPATH="`pwd`/embedded/lib/python3.6/site-packages:`pwd`/embedded/lib64/python3.6/site-packages"
+#export PYTHONPATH="`pwd`/embedded/lib/python2.7/site-packages:`pwd`/embedded/lib64/python2.7/site-packages"
 
 scl enable rh-python36 bash
 
@@ -271,6 +271,10 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 14:42:30 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
+* Thu Jan 17 2019 14:14:13 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 14:12:06 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 13:34:11 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
