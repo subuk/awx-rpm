@@ -66,24 +66,23 @@ scl enable rh-python36 bash
 
 # Install dependencies
 #cat requirements/requirements_ansible.txt requirements/requirements_ansible_git.txt | \
-#    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
+scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" _buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r requirements/requirements_ansible.txt"
 #cat requirements/requirements.txt requirements/requirements_git.txt | \
-#    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
+scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r requirements/requirements.txt"
 
-scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_ansible"
-scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_awx"
+#scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_ansible"
+#scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_awx"
 
 scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}"
 scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ."
 
 # Fix nested packages
-#touch embedded/lib64/python3.6/site-packages/zope/__init__.py
-#touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
-#touch embedded/lib64/python3.6/site-packages/dm/__init__.py
-#touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
+touch embedded/lib64/python3.6/site-packages/zope/__init__.py
+touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
+touch embedded/lib64/python3.6/site-packages/dm/__init__.py
+touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
 
-# Install django
-scl enable rh-python36 "_buildenv/bin/pip3 install Django==1.11.16"
+#scl enable rh-python36 "_buildenv/bin/pip3 install Django==1.11.16"
 
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
@@ -272,6 +271,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 14:12:06 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 13:34:11 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 13:15:48 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
