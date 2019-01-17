@@ -77,10 +77,10 @@ scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,ps
 scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ."
 
 # Fix nested packages
-touch embedded/lib64/python3.6/site-packages/zope/__init__.py
-touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
-touch embedded/lib64/python3.6/site-packages/dm/__init__.py
-touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
+#touch embedded/lib64/python3.6/site-packages/zope/__init__.py
+#touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
+#touch embedded/lib64/python3.6/site-packages/dm/__init__.py
+#touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
 
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
@@ -269,6 +269,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 01:34:56 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 00:52:54 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:52:46 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75

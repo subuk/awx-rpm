@@ -56,9 +56,9 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 # Setup build environment
 scl enable rh-python36 "virtualenv _buildenv/"
 
-scl enable rh-python36 "_buildenv/bin/pip install -U wheel"
+scl enable rh-python36 "_buildenv/bin/pip3 install -U wheel"
 #_buildenv/bin/pip install -U pip==9.0.1
-scl enable rh-python36 "_buildenv/bin/pip install -U setuptools"
+scl enable rh-python36 "_buildenv/bin/pip3 install -U setuptools"
 
 export PYTHONPATH="`pwd`/embedded/lib/python3.6/site-packages:`pwd`/embedded/lib64/python3.6/site-packages"
 
@@ -70,12 +70,11 @@ scl enable rh-python36 bash
 #cat requirements/requirements.txt requirements/requirements_git.txt | \
 #    _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r /dev/stdin
 
-export CFLAGS="-DXMLSEC_NO_SIZE_T" 
-VENV_BASE=`pwd`/embedded/ make requirements_ansible
-VENV_BASE=`pwd`/embedded/ make requirements_awx
+scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_ansible"
+scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_awx"
 
-_buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}
-_buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ .
+scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}"
+scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ."
 
 # Fix nested packages
 touch embedded/lib64/python3.6/site-packages/zope/__init__.py
@@ -270,6 +269,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 01:34:56 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 00:52:54 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Wed Jan 16 2019 23:52:46 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
