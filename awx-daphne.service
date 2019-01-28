@@ -6,10 +6,9 @@ After=syslog.target network.target
 User=awx
 Group=awx
 EnvironmentFile=-/etc/sysconfig/awx
-Environment=PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
-Environment=AWX_SETTINGS_FILE=/etc/awx/settings.py
+Environment=AWX_SETTINGS_FILE=/etc/tower/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
-ExecStart=/opt/awx/bin/daphne -b 127.0.0.1 -p 8051 awx.asgi:channel_layer
+ExecStart=/usr/bin/scl enable rh-python36 rh-postgresql10 "daphne -b 127.0.0.1 -p 8051 awx.asgi:channel_layer"
 KillMode=process
 Restart=on-failure
 RestartSec=2s

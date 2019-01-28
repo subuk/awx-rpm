@@ -38,11 +38,9 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
 Vendor: AWX
 Prefix: %{_prefix}
 BuildRequires: gcc gcc-c++ git make
-BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip
-%{?amzn:BuildRequires: python27 python27-virtualenv python27-devel postgresql95-devel}
-%{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
-%{?fedora:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel m2crypto}
-Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl rh-python36-python
+#BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip
+#%{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
+#Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl rh-python36-python
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -54,35 +52,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 
 %build
 # Setup build environment
-scl enable rh-python36 "virtualenv _buildenv/"
-
-scl enable rh-python36 "_buildenv/bin/pip3 install -U wheel"
-#_buildenv/bin/pip install -U pip==9.0.1
-scl enable rh-python36 "_buildenv/bin/pip3 install -U setuptools"
-
 #export PYTHONPATH="`pwd`/embedded/lib/python2.7/site-packages:`pwd`/embedded/lib64/python2.7/site-packages"
-
-scl enable rh-python36 bash
-
-# Install dependencies
-#cat requirements/requirements_ansible.txt requirements/requirements_ansible_git.txt | \
-scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" _buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r requirements/requirements_ansible.txt"
-#cat requirements/requirements.txt requirements/requirements_git.txt | \
-scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" _buildenv/bin/pip install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ -r requirements/requirements.txt"
-
-#scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_ansible"
-#scl enable rh-python36 "CFLAGS=\"-DXMLSEC_NO_SIZE_T\" VENV_BASE=`pwd`/embedded/ make requirements_awx"
-
-scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ansible==%{ansible_version}"
-scl enable rh-python36 "_buildenv/bin/pip3 install --no-binary cffi,pycparser,psycopg2,twilio --prefix=`pwd`/embedded/ ."
-
-# Fix nested packages
-touch embedded/lib64/python3.6/site-packages/zope/__init__.py
-touch embedded/lib/python3.6/site-packages/jaraco/__init__.py
-touch embedded/lib64/python3.6/site-packages/dm/__init__.py
-touch embedded/lib64/python3.6/site-packages/dm/xmlsec/__init__.py
-
-#scl enable rh-python36 "_buildenv/bin/pip3 install Django==1.11.16"
 
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
@@ -145,9 +115,9 @@ ln -s /usr/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
 #!/bin/sh
-export PYTHONPATH="%{_prefix}/embedded/lib/python3.6/site-packages:%{_prefix}/embedded/lib64/python2.7/site-packages"
+export PYTHONPATH="%{_prefix}/embedded/lib/python3.6/site-packages:%{_prefix}/embedded/lib64/python3.6/site-packages"
 export AWX_SETTINGS_FILE=/etc/awx/settings.py
-exec %{?el7:python3} "$@"
+exec scl enable rh-python36 "%{?el7:python3} \"$@\""
 EOF
 
 # Export usefull scripts
@@ -271,6 +241,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 14:50:45 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
+- New Git version build: 2.1.2.75
 * Thu Jan 17 2019 14:42:30 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 14:14:13 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75

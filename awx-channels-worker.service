@@ -6,13 +6,13 @@ After=syslog.target network.target
 User=awx
 Group=awx
 EnvironmentFile=-/etc/sysconfig/awx
-Environment=PYTHONPATH=/opt/awx/embedded/lib/python2.7/site-packages:/opt/awx/embedded/lib64/python2.7/site-packages
-Environment=AWX_SETTINGS_FILE=/etc/awx/settings.py
+Environment=AWX_SETTINGS_FILE=/etc/tower/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
-ExecStart=/opt/awx/bin/awx-manage runworker --only-channels 'websocket.*'
+ExecStart=/usr/bin/scl enable rh-python36 rh-postgresql10 "awx-manage runworker --only-channels 'websocket.*'"
 KillMode=process
 Restart=on-failure
 RestartSec=2s
 
 [Install]
 WantedBy=multi-user.target
+
