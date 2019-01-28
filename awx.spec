@@ -3,27 +3,18 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
-%define ansible_version ¤ANSIBLE_VERSION¤.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
 %define service_logdir /var/log/tower
-%define service_configdir /etc/awx
+%define service_configdir /etc/tower
 
 Summary: Ansible AWX
-Name: awx
+Name: ansible-awx
 Version: ¤VERSION¤
 Release: ¤RELEASE_VERSION¤%{dist}
 Source0: /dist/¤SOURCE¤
 Source1: settings.py.dist
-%if 0%{?amzn}
-Source2: awx-cbreceiver.upstart
-Source3: awx-celery-beat.upstart
-Source4: awx-celery-worker.upstart
-Source5: awx-channels-worker.upstart
-Source6: awx-daphne.upstart
-Source7: awx-web.upstart
-%endif
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
 Source3: awx-dispatcher.service
@@ -37,10 +28,9 @@ Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
 Vendor: AWX
 Prefix: %{_prefix}
-BuildRequires: gcc gcc-c++ git make
-#BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel libyaml-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-virtualenv rh-python36-python-pip
-#%{?el7:BuildRequires: systemd python python-virtualenv python-devel postgresql-devel}
-#Requires: git subversion curl bubblewrap python2-bcrypt python2-pynacl rh-python36-python
+AutoReqProv: false
+BuildRequires: libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-pip rh-postgresql10-postgresql-devel rh-python36-scldevel rh-python36-build rh-python36-python-wheel rh-python36-Django rh-python36-python-ldap rh-python36-pyasn1 rh-python36-pyasn1-modules rh-python36-pytz rh-python36-PyYAML rh-python36-psutil rh-python36-python-djangorestframework rh-python36-python-djangorestframework-yaml rh-python36-cryptography rh-python36-six rh-python36-cffi rh-python36-python-logstash rh-python36-pyparsing rh-python36-requests rh-python36-urllib3 rh-python36-chardet rh-python36-certifi rh-python36-idna rh-python36-requests-futures rh-python36-django-oauth-toolkit rh-python36-oauthlib rh-python36-python-pygments rh-python36-django-extensions rh-python36-channels rh-python36-django-polymorphic rh-python36-django-taggit rh-python36-social-auth-app-django rh-python36-social-auth-core rh-python36-django-cors-headers rh-python36-django-solo rh-python36-python3-openid rh-python36-django-crum rh-python36-kombu rh-python36-python-jinja2 rh-python36-jsonschema rh-python36-django-jsonfield rh-python36-jsonbfield rh-python36-psycopg2 rh-python36-slackclient rh-python36-websocket_client rh-python36-autobahn rh-python36-daphne rh-python36-twilio rh-python36-pygerduty rh-python36-python-dateutil rh-python36-irc rh-python36-jaraco.stream rh-python36-jaraco.classes rh-python36-jaraco.text rh-python36-jaraco.logging rh-python36-jaraco.itertools rh-python36-jaraco.functools rh-python36-jaraco.collections rh-python36-inflect rh-python36-more-itertools rh-python36-tempora rh-python36-django-pglocks rh-python36-pexpect rh-python36-ptyprocess rh-python36-Twisted rh-python36-txaio rh-python36-incremental rh-python36-zope.interface rh-python36-constantly rh-python36-django-auth-ldap
+Requires: git subversion curl rh-python36-python rh-python36-runtime rh-python36-scldevel rh-python36-python-jinja2 rh-python36-python-markupsafe rh-python36-python-pygments rh-python36-Django libffi-devel libxslt-devel xmlsec1-devel xmlsec1-openssl-devel openldap-devel libtool-ltdl-devel libcurl-devel rh-python36-python rh-python36-python-devel rh-python36-python-pip rh-postgresql10-postgresql-devel rh-python36-scldevel rh-python36-build rh-python36-python-wheel rh-python36-Django rh-python36-python-ldap rh-python36-pyasn1 rh-python36-pyasn1-modules rh-python36-pytz rh-python36-PyYAML rh-python36-psutil rh-python36-python-djangorestframework rh-python36-python-djangorestframework-yaml rh-python36-cryptography rh-python36-six rh-python36-cffi rh-python36-python-logstash rh-python36-pyparsing rh-python36-requests rh-python36-urllib3 rh-python36-chardet rh-python36-certifi rh-python36-idna rh-python36-requests-futures rh-python36-django-oauth-toolkit rh-python36-oauthlib rh-python36-python-pygments rh-python36-django-extensions rh-python36-channels rh-python36-django-polymorphic rh-python36-django-taggit rh-python36-social-auth-app-django rh-python36-social-auth-core rh-python36-django-cors-headers rh-python36-django-solo rh-python36-python3-openid rh-python36-django-crum rh-python36-kombu rh-python36-python-jinja2 rh-python36-jsonschema rh-python36-django-jsonfield rh-python36-jsonbfield rh-python36-psycopg2 rh-python36-slackclient rh-python36-websocket_client rh-python36-autobahn rh-python36-daphne rh-python36-twilio rh-python36-pygerduty rh-python36-python-dateutil rh-python36-irc rh-python36-jaraco.stream rh-python36-jaraco.classes rh-python36-jaraco.text rh-python36-jaraco.logging rh-python36-jaraco.itertools rh-python36-jaraco.functools rh-python36-jaraco.collections rh-python36-inflect rh-python36-more-itertools rh-python36-tempora rh-python36-django-pglocks rh-python36-pexpect rh-python36-ptyprocess rh-python36-Twisted rh-python36-txaio rh-python36-incremental rh-python36-zope.interface rh-python36-constantly rh-python36-django-auth-ldap
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -50,9 +40,10 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %prep
 %setup -q -n awx-¤SHORT_VERSION¤
 
-%build
+%install
 # Setup build environment
-#export PYTHONPATH="`pwd`/embedded/lib/python2.7/site-packages:`pwd`/embedded/lib64/python2.7/site-packages"
+mkdir -p $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/
+scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
 
 # Collect django static
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
@@ -64,42 +55,22 @@ EOF
 export DJANGO_SETTINGS_MODULE="_awx_rpmbuild_collectstatic_settings"
 export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
-scl enable rh-python36 "embedded/bin/awx-manage collectstatic --noinput --clear"
+scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear"
 
 # Cleanup
 unset PYTHONPATH
 unset DJANGO_SETTINGS_MODULE
 
-%install
 mkdir -p %{buildroot}%{service_homedir}
 mkdir -p %{buildroot}%{service_logdir}
-mkdir -p %{buildroot}%{_prefix}/embedded
-mkdir -p %{buildroot}%{_prefix}/embedded/bin
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
 echo ¤TOWER_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
 
+
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
-mv embedded/lib %{buildroot}%{_prefix}/embedded/lib
-mv embedded/lib64 %{buildroot}%{_prefix}/embedded/lib64
 mv static %{buildroot}%{_prefix}/static
-
-%if 0%{?amzn}
-# Install upstart configuration
-mkdir -p %{buildroot}/etc/init
-mkdir -p %{buildroot}/etc/rc.d/init.d
-for service in awx-cbreceiver awx-celery-beat awx-celery-worker awx-channels-worker awx-daphne awx-web; do
-    cp %{_sourcedir}/${service}.upstart %{buildroot}/etc/init/${service}.conf
-    cat > %{buildroot}/etc/rc.d/init.d/${service} <<EOF
-#!/bin/sh
-#chkconfig: - 99 02
-#description: $service
-
-exec /sbin/initctl \$1 $service
-EOF
-done
-%endif
 
 %if 0%{?el7}
 # Install systemd configuration
@@ -109,23 +80,12 @@ for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-
 done
 %endif
 
-# Create Galaxy symlink
-ln -s /usr/bin/ansible-galaxy %{buildroot}/opt/awx/bin/ansible-galaxy 
-
 # Create fake python executable
 cat > %{buildroot}%{_prefix}/bin/python <<"EOF"
 #!/bin/sh
-export PYTHONPATH="%{_prefix}/embedded/lib/python3.6/site-packages:%{_prefix}/embedded/lib64/python3.6/site-packages"
-export AWX_SETTINGS_FILE=/etc/awx/settings.py
+export AWX_SETTINGS_FILE=/etc/tower/settings.py
 exec scl enable rh-python36 "%{?el7:python3} \"$@\""
 EOF
-
-# Export usefull scripts
-mv embedded/bin/uwsgi %{buildroot}%{_prefix}/bin/uwsgi
-for script_name in awx-manage ansible ansible-playbook daphne celery;do
-    mv embedded/bin/$script_name %{buildroot}%{_prefix}/bin/$script_name
-    sed -i '1c#!%{_prefix}/bin/python' %{buildroot}%{_prefix}/bin/$script_name
-done
 
 # Create Virtualenv folder
 mkdir -p %{buildroot}/var/lib/awx/venv
@@ -146,17 +106,6 @@ cp %{_sourcedir}/nginx.conf.example ./
 %systemd_post awx-web
 %endif
 
-%if 0%{?amzn}
-if [ $1 -eq 1 ]; then
-    /sbin/chkconfig --add awx-cbreceiver
-    /sbin/chkconfig --add awx-celery-beat
-    /sbin/chkconfig --add awx-celery-worker
-    /sbin/chkconfig --add awx-channels-worker
-    /sbin/chkconfig --add awx-daphne
-    /sbin/chkconfig --add awx-web
-fi
-%endif
-
 %preun
 %if 0%{?el7}
 %systemd_preun awx-cbreceiver
@@ -164,24 +113,6 @@ fi
 %systemd_preun awx-channels-worker
 %systemd_preun awx-daphne
 %systemd_preun awx-web
-%endif
-
-%if 0%{?amzn}
-if [ $1 -eq 0 ]; then
-    /sbin/service awx-cbreceiver stop >/dev/null 2>&1
-    /sbin/service awx-celery-beat stop >/dev/null 2>&1
-    /sbin/service awx-celery-worker stop >/dev/null 2>&1
-    /sbin/service awx-channels-worker stop >/dev/null 2>&1
-    /sbin/service awx-daphne stop >/dev/null 2>&1
-    /sbin/service awx-web stop >/dev/null 2>&1
-
-    /sbin/chkconfig --del awx-cbreceiver
-    /sbin/chkconfig --del awx-celery-beat
-    /sbin/chkconfig --del awx-celery-worker
-    /sbin/chkconfig --del awx-channels-worker
-    /sbin/chkconfig --del awx-daphne
-    /sbin/chkconfig --del awx-web
-fi
 %endif
 
 %postun
@@ -194,43 +125,28 @@ fi
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(0644, awx, awx, 0755)
 %doc nginx.conf.example
-%attr(0755, root, root) %{_prefix}/bin/uwsgi
-%attr(0755, root, root) %{_prefix}/bin/python
-%attr(0755, root, root) %{_prefix}/bin/celery
-%attr(0755, root, root) %{_prefix}/bin/awx-manage
-%attr(0755, root, root) %{_prefix}/bin/daphne
-%attr(0755, root, root) %{_prefix}/bin/ansible
-%attr(0755, root, root) %{_prefix}/bin/ansible-playbook
-%attr(0755, root, root) %{_prefix}/bin/ansible-galaxy
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/bin/awx-manage
 %attr(0755, awx, awx) %{_prefix}/static
-%attr(0755, awx, awx) %{_prefix}/embedded/lib
-%attr(0755, awx, awx) %{_prefix}/embedded/lib64
-%attr(0755, awx, awx) %{_prefix}/embedded
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
 %dir %attr(0770, root, %{service_group}) %{service_logdir}
 %config(noreplace) %{service_configdir}/settings.py
-
-%if 0%{?amzn}
-%attr(0644, root, root) /etc/init/awx-cbreceiver.conf
-%attr(0644, root, root) /etc/init/awx-celery-beat.conf
-%attr(0644, root, root) /etc/init/awx-celery-worker.conf
-%attr(0644, root, root) /etc/init/awx-channels-worker.conf
-%attr(0644, root, root) /etc/init/awx-daphne.conf
-%attr(0644, root, root) /etc/init/awx-web.conf
-
-%attr(0755, root, root) /etc/rc.d/init.d/awx-cbreceiver
-%attr(0755, root, root) /etc/rc.d/init.d/awx-celery-beat
-%attr(0755, root, root) /etc/rc.d/init.d/awx-celery-worker
-%attr(0755, root, root) /etc/rc.d/init.d/awx-channels-worker
-%attr(0755, root, root) /etc/rc.d/init.d/awx-daphne
-%attr(0755, root, root) /etc/rc.d/init.d/awx-web
-%endif
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/doc/awx/
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx
+/opt/awx/bin/python
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-3.0.0.dist-info
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-service
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-setup
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/awx-python
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/failure-event-handler
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/awx
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/sosreport/sos/plugins/tower.py
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/var/lib/awx
 
 %if 0%{?el7}
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
@@ -241,6 +157,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Thu Jan 17 2019 14:50:45 +0000 Martin Juhl <m@rtinjuhl.dk> 3.0.0.0
+- New Version v.3.0.0
 * Thu Jan 17 2019 14:50:45 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75
 - New Git version build: 2.1.2.75
 * Thu Jan 17 2019 14:42:30 +0000 Martin Juhl <mj@casalogic.dk> 2.1.2.75

@@ -3,6 +3,7 @@
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
+%define ansible_version 3.0.0.0
 %define service_user awx
 %define service_group awx
 %define service_homedir /var/lib/awx
@@ -11,9 +12,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: ¤VERSION¤
-Release: ¤RELEASE_VERSION¤%{dist}
-Source0: /dist/¤SOURCE¤
+Version: 3.0.0
+Release: 7%{dist}
+Source0: /dist/awx-3.0.0.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -38,7 +39,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{summary}
 
 %prep
-%setup -q -n awx-¤SHORT_VERSION¤
+%setup -q -n awx-3.0.0
 
 %install
 # Setup build environment
@@ -66,7 +67,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo ¤TOWER_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
+echo 3.0.0 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
