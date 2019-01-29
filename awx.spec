@@ -13,7 +13,7 @@ Summary: Ansible AWX
 Name: ansible-awx
 Version: ¤VERSION¤
 Release: ¤RELEASE_VERSION¤%{dist}
-Source0: /dist/¤SOURCE¤
+Source0: ¤SOURCE¤
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -157,6 +157,14 @@ cp %{_sourcedir}/nginx.conf.example ./
 %endif
 
 %changelog
+* Tue Jan 29 2019 10:40:44 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
+- New Git version build: 3.0.0.0
+* Tue Jan 29 2019 10:38:02 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
+- New Git version build: 3.0.0.0
+* Tue Jan 29 2019 10:36:15 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
+- New Git version build: 3.0.0.0
+* Tue Jan 29 2019 10:34:50 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
+- New Git version build: 3.0.0.0
 * Tue Jan 29 2019 10:19:27 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
 - New Git version build: 3.0.0.0
 * Tue Jan 29 2019 10:06:59 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
