@@ -13,3 +13,6 @@ yum -y install scl-utils-build libcurl-devel rh-python36-pycparser rh-python36-p
 yum-builddep -y $SPECFILE
 
 rpmbuild -ba $SPECFILE
+
+cp /root/rpmbuild/SRPMS/* /result
+cp /root/rpmbuild/RPMS/*/* /result
