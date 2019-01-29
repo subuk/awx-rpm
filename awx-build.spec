@@ -138,7 +138,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/doc/awx/
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx
 /opt/awx/bin/python
-/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-3.0.0.dist-info
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-*.dist-info
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-service
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-setup
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/awx-python
@@ -157,6 +157,8 @@ cp %{_sourcedir}/nginx.conf.example ./
 %endif
 
 %changelog
+* Tue Jan 29 2019 08:26:27 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
+- New Git version build: 3.0.0.0
 * Tue Jan 29 2019 08:23:31 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
 - New Git version build: 3.0.0.0
 * Tue Jan 29 2019 08:15:00 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.0
