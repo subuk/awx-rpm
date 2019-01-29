@@ -28,7 +28,8 @@ AWX_TASK_ENV['HOME'] = '/var/lib/awx'
 # Container environments don't like chroots
 AWX_PROOT_ENABLED = False
 
-ANSIBLE_VENV_PATH = '/opt/awx/embedded'
+#ANSIBLE_VENV_PATH = '/opt/awx/embedded' v.2.1.2
+ANSIBLE_VENV_PATH = '/opt/rh/rh-python36/root/'
 
 CLUSTER_HOST_ID = HOSTNAME
 SYSTEM_UUID = '00000000-0000-0000-0000-000000000000'
