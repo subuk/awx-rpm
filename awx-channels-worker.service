@@ -9,7 +9,6 @@ EnvironmentFile=-/etc/sysconfig/awx
 Environment=AWX_SETTINGS_FILE=/etc/tower/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
 ExecStart=/usr/bin/scl enable rh-python36 rh-postgresql10 "awx-manage runworker --only-channels 'websocket.*'"
-KillMode=process
 Restart=on-failure
 RestartSec=2s
 

@@ -22,8 +22,8 @@ ExecStart=/usr/bin/scl enable rh-python36 rh-postgresql10 "uwsgi \
         --max-requests=1000 \
         --master-fifo=/var/lib/awx/awxfifo \
         --lazy-apps -b 32768"
-ExecReload=/bin/kill -HUP $MAINPID
-KillMode=process
+#ExecReload=/bin/kill -HUP $MAINPID
+#KillMode=process
 Restart=on-failure
 RestartSec=2s
 
