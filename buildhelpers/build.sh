@@ -4,6 +4,8 @@ set -x
 
 SPECFILE="/source/$1"
 
+cat $SPECFILE
+
 yum install -y centos-release-scl wget
 
 wget -O /etc/yum.repos.d/ansible-awx.repo https://copr.fedorainfracloud.org/coprs/mrmeee/ansible-awx/repo/epel-7/mrmeee-ansible-awx-epel-7.repo
