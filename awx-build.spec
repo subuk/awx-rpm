@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 3.0.0.126
+Version: 3.0.0.128
 Release: 1%{dist}
-Source0: awx-3.0.0.126.tar.gz
+Source0: awx-3.0.0.128.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -66,7 +66,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 3.0.0 > %{buildroot}%{service_homedir}/.tower_version
+echo 3.0.1 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -157,6 +157,8 @@ cp %{_sourcedir}/nginx.conf.example ./
 %endif
 
 %changelog
+* Fri Feb 08 2019 19:57:06 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.128
+- New Git version build: 3.0.0.128
 * Fri Feb 08 2019 14:57:13 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.126
 - New Git version build: 3.0.0.126
 * Thu Feb 07 2019 21:56:14 +0000 Martin Juhl <mj@casalogic.dk> 3.0.0.124
