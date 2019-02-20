@@ -133,7 +133,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 %attr(0755, awx, awx) %{_prefix}/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
-%dir %attr(0770, root, %{service_group}) %{service_logdir}
+%dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config(noreplace) %{service_configdir}/settings.py
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/doc/awx/
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx
