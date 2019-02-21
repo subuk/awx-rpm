@@ -157,6 +157,8 @@ cp %{_sourcedir}/nginx.conf.example ./
 %endif
 
 %changelog
+* Thu Feb 21 2019 18:57:13 +0000 Martin Juhl <mj@casalogic.dk> 3.0.1.105
+- New Git version build: 3.0.1.105
 * Thu Feb 21 2019 18:26:35 +0000 Martin Juhl <mj@casalogic.dk> 3.0.1.102
 - New Git version build: 3.0.1.102
 * Thu Feb 21 2019 16:27:00 +0000 Martin Juhl <mj@casalogic.dk> 3.0.1.99
