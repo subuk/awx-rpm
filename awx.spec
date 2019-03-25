@@ -130,6 +130,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 %defattr(0644, awx, awx, 0755)
 %doc nginx.conf.example
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/bin/awx-manage
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/plugins/*/*.py
 %attr(0755, awx, awx) %{_prefix}/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
