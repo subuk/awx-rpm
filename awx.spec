@@ -23,6 +23,7 @@ Source6: awx-daphne.service
 Source7: awx-web.service
 %endif
 Source8: nginx.conf.example
+Source9: awx-create-venv
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
