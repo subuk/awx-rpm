@@ -12,7 +12,7 @@
 Summary: Ansible AWX
 Name: ansible-awx
 Version: 4.0.0.6
-Release: 2%{dist}
+Release: 3%{dist}
 Source0: awx-4.0.0.6.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
@@ -23,6 +23,7 @@ Source6: awx-daphne.service
 Source7: awx-web.service
 %endif
 Source8: nginx.conf.example
+Source9: awx-create-venv
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -162,6 +163,7 @@ cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin
 %endif
 
 %changelog
+* Thu Mar 28 2019 12:41:35 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.6
 * Thu Mar 28 2019 12:00:16 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.6
 * Thu Mar 28 2019 01:26:46 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.0
 - New Git version build: 4.0.0.0
