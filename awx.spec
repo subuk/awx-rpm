@@ -96,6 +96,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 
 # Install VENV Script
 cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/
+ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
 
 %pre
 /usr/bin/getent group %{service_group} >/dev/null || /usr/sbin/groupadd --system %{service_group}
@@ -135,6 +136,7 @@ cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin
 %doc nginx.conf.example
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/bin/awx-manage
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/bin/awx-create-venv
+/usr/bin/awx-create-venv
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/plugins/*/*.py
 %attr(0755, awx, awx) %{_prefix}/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
