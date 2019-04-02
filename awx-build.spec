@@ -12,8 +12,8 @@
 Summary: Ansible AWX
 Name: ansible-awx
 Version: 4.0.0.140
-Release: 1%{dist}
-Source0: awx-4.0.0.140.tar.gz
+Release: ¤RELEASE_VERSION¤%{dist}
+Source0: ¤SOURCE¤
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -39,7 +39,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{summary}
 
 %prep
-%setup -q -n awx-4.0.0
+%setup -q -n awx-¤SHORT_VERSION¤
 
 %install
 # Setup build environment
@@ -67,7 +67,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 4.0.0 > %{buildroot}%{service_homedir}/.tower_version
+echo ¤TOWER_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -167,6 +167,8 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %endif
 
 %changelog
+* Tue Apr 02 2019 20:23:39 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.140
+* Tue Apr 02 2019 20:22:36 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.140
 * Tue Apr 02 2019 19:52:29 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.140
 * Tue Apr 02 2019 19:22:25 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.140
 * Tue Apr 02 2019 18:52:28 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.140
