@@ -56,6 +56,7 @@ EOF
 export DJANGO_SETTINGS_MODULE="_awx_rpmbuild_collectstatic_settings"
 export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
+sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
 scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear"
 
 # Cleanup
@@ -167,6 +168,7 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %endif
 
 %changelog
+* Mon Apr 08 2019 16:16:53 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.220
 * Mon Apr 08 2019 15:22:52 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.220
 * Mon Apr 08 2019 14:57:52 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.220
 - New Git version build: 4.0.0.220
