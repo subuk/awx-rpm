@@ -146,25 +146,15 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config(noreplace) %{service_configdir}/settings.py
+/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-*.egg-info/
 /usr/share/doc/awx/
-/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx
 /opt/awx/bin/python
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-*.dist-info
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-service
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/ansible-tower-setup
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/awx-python
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/bin/failure-event-handler
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/awx
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/usr/share/sosreport/sos/plugins/tower.py
-#/opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/var/lib/awx
 /usr/bin/ansible-tower-service
 /usr/bin/ansible-tower-setup
 /usr/bin/awx-python
 /usr/bin/failure-event-handler
 /usr/share/awx
 /usr/share/sosreport/sos/plugins/tower.py
-/var/lib/awx
 
 
 %if 0%{?el7}
