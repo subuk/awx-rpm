@@ -156,6 +156,8 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 /usr/bin/failure-event-handler
 /usr/share/awx
 /usr/share/sosreport/sos/plugins/tower.py
+/var/lib/awx/favicon.ico
+/var/lib/awx/wsgi.py
 
 
 %if 0%{?el7}
