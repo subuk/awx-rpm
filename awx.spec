@@ -163,7 +163,6 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 /usr/bin/awx-python
 /usr/bin/failure-event-handler
 /usr/share/awx
-/usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
 /usr/share/sosreport/sos/plugins/tower.py
 /var/lib/awx
 
