@@ -141,6 +141,13 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/bin/awx-create-venv
 /usr/bin/awx-create-venv
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/plugins/*/*.py
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/main
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/locale
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/lib
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/conf
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/asgi.py
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/api
+%attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/__*
 %attr(0755, awx, awx) %{_prefix}/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
