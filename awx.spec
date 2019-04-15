@@ -169,6 +169,8 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %endif
 
 %changelog
+* Mon Apr 15 2019 14:27:34 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.307
+- New Git version build: 4.0.0.307
 * Mon Apr 15 2019 13:58:26 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.305
 - New Git version build: 4.0.0.305
 * Sat Apr 13 2019 11:57:41 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.301
