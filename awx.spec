@@ -169,6 +169,7 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %endif
 
 %changelog
+* Wed Apr 17 2019 16:22:50 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.335
 * Wed Apr 17 2019 15:52:50 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.335
 * Wed Apr 17 2019 15:22:47 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.335
 * Wed Apr 17 2019 14:52:45 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.335
