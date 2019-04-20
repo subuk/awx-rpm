@@ -3,7 +3,7 @@ set -e
 set -x
 
 SPECFILE="/root/rpmbuild/SOURCES/$1"
-cat $SPECFILE
+#cat $SPECFILE
 
 yum install -y centos-release-scl wget
 
