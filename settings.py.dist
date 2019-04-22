@@ -28,6 +28,8 @@ AWX_TASK_ENV['HOME'] = '/var/lib/awx'
 AWX_PROOT_ENABLED = True
 
 ANSIBLE_VENV_PATH = '/opt/rh/rh-python36/root/'
+BASE_VENV_PATH = '/opt/rh/rh-python36/'
+CUSTOM_VENV_PATHS = ['/var/lib/awx/venv']
 
 CLUSTER_HOST_ID = HOSTNAME
 SYSTEM_UUID = '00000000-0000-0000-0000-000000000000'
