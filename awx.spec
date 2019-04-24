@@ -146,7 +146,7 @@ ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/a
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
-%config(noreplace) %{service_configdir}/settings.py
+%config %{service_configdir}/settings.py
 /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx-*.egg-info/
 /usr/share/doc/awx/
 /opt/awx/bin/python
