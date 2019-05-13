@@ -99,7 +99,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
-ln -s /opt/rh/rh-python36/root $RPM_BUILD_ROOT/var/lib/awx/venv/awx
+
 
 %pre
 /usr/bin/getent group %{service_group} >/dev/null || /usr/sbin/groupadd --system %{service_group}
@@ -114,6 +114,7 @@ ln -s /opt/rh/rh-python36/root $RPM_BUILD_ROOT/var/lib/awx/venv/awx
 %systemd_post awx-daphne
 %systemd_post awx-web
 %endif
+%{__ln_s} -f /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 
 %preun
 %if 0%{?el7}
@@ -132,6 +133,7 @@ ln -s /opt/rh/rh-python36/root $RPM_BUILD_ROOT/var/lib/awx/venv/awx
 %systemd_postun awx-daphne
 %systemd_postun awx-web
 %endif
+rm -f /var/lib/awx/venv/awx
 
 %clean
 
