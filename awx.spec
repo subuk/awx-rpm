@@ -99,6 +99,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
+mkdir -p %{service_homedir}/venv
 
 
 %pre
