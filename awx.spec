@@ -148,6 +148,7 @@ rm -f /var/lib/awx/venv/awx
 %attr(0755, root, root) /opt/rh/rh-python36/root/usr/lib/python3.6/site-packages/awx/plugins/*/*.py
 %attr(0755, awx, awx) %{_prefix}/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
+%dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}/venv
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config %{service_configdir}/settings.py
