@@ -98,7 +98,7 @@ cp %{_sourcedir}/nginx.conf.example ./
 # Install VENV Script
 cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
-ln -sf /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
+ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
 
@@ -115,7 +115,7 @@ mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 %systemd_post awx-daphne
 %systemd_post awx-web
 %endif
-%{__ln_s} -f /opt/rh/rh-python36/root /var/lib/awx/venv/awx
+ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 
 %preun
 %if 0%{?el7}
