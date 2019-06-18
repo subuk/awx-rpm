@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 4.0.0.746
+Version: 5.0.0.0
 Release: 1%{dist}
-Source0: awx-4.0.0.746.tar.gz
+Source0: awx-5.0.0.0.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -39,7 +39,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{summary}
 
 %prep
-%setup -q -n awx-4.0.0
+%setup -q -n awx-5.0.0
 
 %install
 # Setup build environment
@@ -68,7 +68,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 4.0.0 > %{buildroot}%{service_homedir}/.tower_version
+echo 5.0.0 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -174,6 +174,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jun 18 2019 20:47:31 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
+- New Git version build: 5.0.0.0
 * Mon Jun 17 2019 21:12:50 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.746
 - New Git version build: 4.0.0.746
 * Sat Jun 15 2019 01:27:05 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.742
