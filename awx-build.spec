@@ -12,7 +12,7 @@
 Summary: Ansible AWX
 Name: ansible-awx
 Version: 5.0.0.0
-Release: 1%{dist}
+Release: 2%{dist}
 Source0: awx-5.0.0.0.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
@@ -115,7 +115,7 @@ mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 %systemd_post awx-daphne
 %systemd_post awx-web
 %endif
-%{__ln_s} -f /opt/rh/rh-python36/root /var/lib/awx/venv/awx
+ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 
 %preun
 %if 0%{?el7}
@@ -174,6 +174,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jun 18 2019 21:00:21 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
 * Tue Jun 18 2019 20:47:31 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
 - New Git version build: 5.0.0.0
 * Mon Jun 17 2019 21:12:50 +0000 Martin Juhl <mj@casalogic.dk> 4.0.0.746
