@@ -12,7 +12,7 @@
 Summary: Ansible AWX
 Name: ansible-awx
 Version: 5.0.0.0
-Release: 2%{dist}
+Release: 3%{dist}
 Source0: awx-5.0.0.0.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
@@ -24,6 +24,7 @@ Source7: awx-web.service
 %endif
 Source8: nginx.conf.example
 Source9: awx-create-venv
+Source10: awx-rpm-logo.svg
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -101,6 +102,11 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin/
 ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
+cp %{_sourcedir}/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/awx-rpm-logo.svg
+mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg.orig
+mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg.orig
+ln -s /opt/awx/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg
+ln -s /opt/awx/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg
 
 %pre
 /usr/bin/getent group %{service_group} >/dev/null || /usr/sbin/groupadd --system %{service_group}
@@ -174,6 +180,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Jun 20 2019 23:31:16 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
 * Tue Jun 18 2019 21:00:21 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
 * Tue Jun 18 2019 20:47:31 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
 - New Git version build: 5.0.0.0
