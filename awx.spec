@@ -24,6 +24,7 @@ Source7: awx-web.service
 %endif
 Source8: nginx.conf.example
 Source9: awx-create-venv
+Source10: awx-rpm-logo.svg
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -101,6 +102,11 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin/
 ln -s /opt/rh/rh-python36/root/usr/bin/awx-create-venv $RPM_BUILD_ROOT/usr/bin/awx-create-venv
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
+cp %{_sourcedir}/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/awx-rpm-logo.svg
+mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg.orig
+mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg.orig
+ln -s /opt/awx/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg
+ln -s /opt/awx/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg
 
 %pre
 /usr/bin/getent group %{service_group} >/dev/null || /usr/sbin/groupadd --system %{service_group}
