@@ -12,7 +12,7 @@
 Summary: Ansible AWX
 Name: ansible-awx
 Version: 5.0.0.49
-Release: 1%{dist}
+Release: 2%{dist}
 Source0: awx-5.0.0.49.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
@@ -25,6 +25,7 @@ Source7: awx-web.service
 Source8: nginx.conf.example
 Source9: awx-create-venv
 Source10: awx-rpm-logo.svg
+Source11: awx.service
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -78,7 +79,7 @@ mv static %{buildroot}%{_prefix}/static
 %if 0%{?el7}
 # Install systemd configuration
 mkdir -p %{buildroot}%{_unitdir}
-for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web; do
+for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web awx; do
     cp %{_sourcedir}/${service}.service %{buildroot}%{_unitdir}/
 done
 %endif
@@ -177,9 +178,11 @@ rm -f /var/lib/awx/venv/awx
 %attr(0644, root, root) %{_unitdir}/awx-channels-worker.service
 %attr(0644, root, root) %{_unitdir}/awx-daphne.service
 %attr(0644, root, root) %{_unitdir}/awx-web.service
+%attr(0644, root, root) %{_unitdir}/awx.service
 %endif
 
 %changelog
+* Sat Jun 22 2019 22:46:12 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.49
 * Sat Jun 22 2019 21:37:08 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.49
 - New Git version build: 5.0.0.49
 * Thu Jun 20 2019 23:49:15 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.0
