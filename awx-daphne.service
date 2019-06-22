@@ -1,6 +1,7 @@
 [Unit]
 Description=AWX daphne service
-After=syslog.target network.target
+PartOf=awx.service
+After=awx.service
 
 [Service]
 User=awx
@@ -13,4 +14,4 @@ Restart=on-failure
 RestartSec=2s
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=awx.service

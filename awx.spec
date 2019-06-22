@@ -25,6 +25,7 @@ Source7: awx-web.service
 Source8: nginx.conf.example
 Source9: awx-create-venv
 Source10: awx-rpm-logo.svg
+Source11: awx.service
 License: GPLv3
 Group: AWX
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}.buildroot
@@ -78,7 +79,7 @@ mv static %{buildroot}%{_prefix}/static
 %if 0%{?el7}
 # Install systemd configuration
 mkdir -p %{buildroot}%{_unitdir}
-for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web; do
+for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web awx; do
     cp %{_sourcedir}/${service}.service %{buildroot}%{_unitdir}/
 done
 %endif
@@ -177,6 +178,7 @@ rm -f /var/lib/awx/venv/awx
 %attr(0644, root, root) %{_unitdir}/awx-channels-worker.service
 %attr(0644, root, root) %{_unitdir}/awx-daphne.service
 %attr(0644, root, root) %{_unitdir}/awx-web.service
+%attr(0644, root, root) %{_unitdir}/awx.service
 %endif
 
 %changelog
