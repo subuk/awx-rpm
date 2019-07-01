@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 5.0.0.65
-Release: 0%{dist}
-Source0: awx-5.0.0.65.tar.gz
+Version: 5.0.0.67
+Release: 1%{dist}
+Source0: awx-5.0.0.67.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -233,6 +233,7 @@ Requires: sshpass
 Requires: subversion
 Requires: xmlsec1-devel
 Requires: xmlsec1-openssl-devel
+
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
 
@@ -381,6 +382,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Jul 01 2019 15:57:33 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.67
+- New Git version build: 5.0.0.67
 * Fri Jun 28 2019 16:57:42 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.65
 - New Git version build: 5.0.0.65
 * Thu Jun 27 2019 20:27:03 +0000 Martin Juhl <mj@casalogic.dk> 5.0.0.63
