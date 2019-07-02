@@ -8,7 +8,8 @@ awx-create-venv [-options] venvname
 
 Create a Virtual Enviroment for use with AWX-RPM, containing Ansible
 
-Note: GCC is needed to setup the Virtual Environments, install gcc with "yum -y install gcc", if it's not installed..
+Note: GCC is needed to setup the Virtual Environments, install gcc with "yum -y install gcc ", if it's not installed..
+Also: The packages: "rh-python36-python-pip python2-pip rh-python36-python-virtualenv python-virtualenv" are needed
 
  options:
   -p, --pythonversion        pythonversion to use (2 or 3), defaults to 3
