@@ -382,6 +382,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Jul 15 2019 13:28:25 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.675
+- New Git version build: 6.0.0.675
 * Fri Jul 12 2019 19:27:15 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.673
 - New Git version build: 6.0.0.673
 * Fri Jul 12 2019 18:57:04 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.671
