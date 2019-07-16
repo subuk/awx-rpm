@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 6.0.0.713
+Version: 6.0.0.715
 Release: 1%{dist}
-Source0: awx-6.0.0.713.tar.gz
+Source0: awx-6.0.0.715.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -260,6 +260,7 @@ export DJANGO_SETTINGS_MODULE="_awx_rpmbuild_collectstatic_settings"
 export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
+
 scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear"
 
 # Cleanup
@@ -383,6 +384,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jul 16 2019 18:21:09 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.715
+- New Git version build: 6.0.0.715
 * Tue Jul 16 2019 17:23:24 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.713
 * Tue Jul 16 2019 17:19:25 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.713
 * Tue Jul 16 2019 16:23:18 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.713
