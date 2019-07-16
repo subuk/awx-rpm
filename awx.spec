@@ -118,6 +118,7 @@ BuildRequires: rh-python36-six
 BuildRequires: rh-python36-slackclient
 BuildRequires: rh-python36-social-auth-app-django
 BuildRequires: rh-python36-social-auth-core
+BuildRequires: rh-python36-sqlparse
 BuildRequires: rh-python36-tempora
 BuildRequires: rh-python36-twilio
 BuildRequires: rh-python36-txaio
