@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 6.0.0.719
-Release: 1%{dist}
-Source0: awx-6.0.0.719.tar.gz
+Version: 05a1137
+Release: ¤RELEASE_VERSION¤%{dist}
+Source0: ¤SOURCE¤
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -242,7 +242,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{summary}
 
 %prep
-%setup -q -n awx-6.0.0
+%setup -q -n awx-¤SHORT_VERSION¤
 
 %install
 # Setup build environment
@@ -272,7 +272,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 6.0.0 > %{buildroot}%{service_homedir}/.tower_version
+echo ¤TOWER_VERSION¤ > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -384,6 +384,9 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jul 16 2019 22:18:46 +0000 Martin Juhl <mj@casalogic.dk> 05a1137
+* Tue Jul 16 2019 22:02:45 +0000 Martin Juhl <mj@casalogic.dk> 05a1137
+- New version build: 05a1137
 * Tue Jul 16 2019 20:53:15 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.719
 * Tue Jul 16 2019 18:57:21 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.719
 - New Git version build: 6.0.0.719
