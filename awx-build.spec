@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 6.1.0.14
+Version: 6.1.0.18
 Release: 1%{dist}
-Source0: awx-6.1.0.14.tar.gz
+Source0: awx-6.1.0.18.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -384,6 +384,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Jul 24 2019 00:02:16 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.18
+- New Git version build: 6.1.0.18
 * Thu Jul 18 2019 19:00:33 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.14
 - New Git version build: 6.1.0.14
 * Thu Jul 18 2019 17:27:10 +0000 Martin Juhl <mj@casalogic.dk> 6.0.0.747
