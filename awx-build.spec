@@ -71,6 +71,7 @@ BuildRequires: rh-python36-django-solo
 BuildRequires: rh-python36-django-taggit
 BuildRequires: rh-python36-djangorestframework
 BuildRequires: rh-python36-djangorestframework-yaml
+BuildRequires: rh-python36-GitPython
 BuildRequires: rh-python36-idna
 BuildRequires: rh-python36-incremental
 BuildRequires: rh-python36-inflect
@@ -171,6 +172,7 @@ Requires: rh-python36-django-solo
 Requires: rh-python36-django-taggit
 Requires: rh-python36-djangorestframework
 Requires: rh-python36-djangorestframework-yaml
+Requires: rh-python36-GitPython
 Requires: rh-python36-idna
 Requires: rh-python36-incremental
 Requires: rh-python36-inflect
@@ -384,6 +386,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Aug 14 2019 22:13:33 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.215
 * Wed Aug 14 2019 20:56:51 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.215
 - New Git version build: 6.1.0.215
 * Wed Aug 14 2019 20:27:00 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.213
