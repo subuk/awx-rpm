@@ -33,6 +33,7 @@ Vendor: AWX
 Prefix: %{_prefix}
 AutoReqProv: false
 
+BuildRequires: git
 BuildRequires: libcurl-devel
 BuildRequires: libffi-devel
 BuildRequires: libtool-ltdl-devel
@@ -390,6 +391,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Aug 15 2019 08:22:58 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 07:44:51 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 06:22:59 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 05:52:56 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
