@@ -386,6 +386,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Aug 15 2019 00:52:55 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 00:48:18 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Wed Aug 14 2019 23:52:58 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Wed Aug 14 2019 23:26:56 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
