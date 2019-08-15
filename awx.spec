@@ -118,6 +118,7 @@ BuildRequires: rh-python36-requests-oauthlib
 BuildRequires: rh-python36-scldevel
 BuildRequires: rh-python36-six
 BuildRequires: rh-python36-slackclient
+BuildRequires: rh-python36-smmap2
 BuildRequires: rh-python36-social-auth-app-django
 BuildRequires: rh-python36-social-auth-core
 BuildRequires: rh-python36-sqlparse
@@ -225,6 +226,7 @@ Requires: rh-python36-scldevel
 Requires: rh-python36-scldevel
 Requires: rh-python36-six
 Requires: rh-python36-slackclient
+Requires: rh-python36-smmap2
 Requires: rh-python36-social-auth-app-django
 Requires: rh-python36-social-auth-core
 Requires: rh-python36-tempora
