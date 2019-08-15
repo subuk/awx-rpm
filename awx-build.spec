@@ -71,6 +71,7 @@ BuildRequires: rh-python36-django-solo
 BuildRequires: rh-python36-django-taggit
 BuildRequires: rh-python36-djangorestframework
 BuildRequires: rh-python36-djangorestframework-yaml
+BuildRequires: rh-python36-gitdb2
 BuildRequires: rh-python36-GitPython
 BuildRequires: rh-python36-idna
 BuildRequires: rh-python36-incremental
@@ -117,6 +118,7 @@ BuildRequires: rh-python36-requests-oauthlib
 BuildRequires: rh-python36-scldevel
 BuildRequires: rh-python36-six
 BuildRequires: rh-python36-slackclient
+BuildRequires: rh-python36-smmap2
 BuildRequires: rh-python36-social-auth-app-django
 BuildRequires: rh-python36-social-auth-core
 BuildRequires: rh-python36-sqlparse
@@ -172,6 +174,7 @@ Requires: rh-python36-django-solo
 Requires: rh-python36-django-taggit
 Requires: rh-python36-djangorestframework
 Requires: rh-python36-djangorestframework-yaml
+Requires: rh-python36-gitdb2
 Requires: rh-python36-GitPython
 Requires: rh-python36-idna
 Requires: rh-python36-incremental
@@ -223,6 +226,7 @@ Requires: rh-python36-scldevel
 Requires: rh-python36-scldevel
 Requires: rh-python36-six
 Requires: rh-python36-slackclient
+Requires: rh-python36-smmap2
 Requires: rh-python36-social-auth-app-django
 Requires: rh-python36-social-auth-core
 Requires: rh-python36-tempora
@@ -386,6 +390,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Aug 15 2019 07:44:51 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 06:22:59 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 05:52:56 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
 * Thu Aug 15 2019 05:22:57 +0000 Martin Juhl <mj@casalogic.dk> 6.1.0.219
