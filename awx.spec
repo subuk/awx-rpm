@@ -33,6 +33,7 @@ Vendor: AWX
 Prefix: %{_prefix}
 AutoReqProv: false
 
+BuildRequires: git
 BuildRequires: libcurl-devel
 BuildRequires: libffi-devel
 BuildRequires: libtool-ltdl-devel
