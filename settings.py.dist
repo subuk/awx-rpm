@@ -57,7 +57,7 @@ EMAIL_USE_TLS = False
 
 LOGGING['handlers']['console'] = {
     '()': 'logging.StreamHandler',
-    'level': 'DEBUG',
+    'level': 'INFO',
     'formatter': 'simple',
 }
 
