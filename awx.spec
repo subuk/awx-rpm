@@ -252,6 +252,8 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %setup -q -n awx-¤SHORT_VERSION¤
 
 %install
+mkdir -p /var/log/tower
+
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/
 scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
