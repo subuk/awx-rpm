@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 7.0.0.630
+Version: 7.0.0.632
 Release: 1%{dist}
-Source0: awx-7.0.0.630.tar.gz
+Source0: awx-7.0.0.632.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -252,6 +252,8 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %setup -q -n awx-7.0.0
 
 %install
+mkdir -p /var/log/tower
+
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/
 scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
@@ -268,7 +270,7 @@ export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
 
-scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear"
+scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOGGING['loggers']['awx']['handlers']=['console']"
 
 # Cleanup
 unset PYTHONPATH
@@ -391,6 +393,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Oct 10 2019 09:13:07 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.632
+- New Git version build: 7.0.0.632
 * Thu Oct 10 2019 08:25:41 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.630
 - New Git version build: 7.0.0.630
 * Fri Sep 13 2019 18:27:17 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.146
