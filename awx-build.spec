@@ -89,6 +89,7 @@ BuildRequires: rh-python36-jaraco.text
 BuildRequires: rh-python36-jsonbfield
 BuildRequires: rh-python36-jsonschema
 BuildRequires: rh-python36-kombu
+BuildRequires: rh-python36-kubernetes
 BuildRequires: rh-python36-more-itertools
 BuildRequires: rh-python36-msrest
 BuildRequires: rh-python36-msrestazure
@@ -192,6 +193,7 @@ Requires: rh-python36-jaraco.text
 Requires: rh-python36-jsonbfield
 Requires: rh-python36-jsonschema
 Requires: rh-python36-kombu
+Requires: rh-python36-kubernetes
 Requires: rh-python36-more-itertools
 Requires: rh-python36-msrest
 Requires: rh-python36-msrestazure
@@ -393,6 +395,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Oct 16 2019 22:23:16 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
 * Wed Oct 16 2019 21:22:45 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
 * Wed Oct 16 2019 20:56:48 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
 - New Git version build: 7.0.0.695
