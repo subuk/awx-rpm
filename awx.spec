@@ -72,6 +72,7 @@ BuildRequires: rh-python36-django-solo
 BuildRequires: rh-python36-django-taggit
 BuildRequires: rh-python36-djangorestframework
 BuildRequires: rh-python36-djangorestframework-yaml
+BuildRequires: rh-python36-google-auth
 BuildRequires: rh-python36-gitdb2
 BuildRequires: rh-python36-GitPython
 BuildRequires: rh-python36-idna
@@ -178,6 +179,7 @@ Requires: rh-python36-djangorestframework
 Requires: rh-python36-djangorestframework-yaml
 Requires: rh-python36-gitdb2
 Requires: rh-python36-GitPython
+Requires: rh-python36-google-auth
 Requires: rh-python36-idna
 Requires: rh-python36-incremental
 Requires: rh-python36-inflect
