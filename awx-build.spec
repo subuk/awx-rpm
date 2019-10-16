@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 7.0.0.695
+Version: 7.0.0.697
 Release: 1%{dist}
-Source0: awx-7.0.0.695.tar.gz
+Source0: awx-7.0.0.697.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -72,6 +72,7 @@ BuildRequires: rh-python36-django-solo
 BuildRequires: rh-python36-django-taggit
 BuildRequires: rh-python36-djangorestframework
 BuildRequires: rh-python36-djangorestframework-yaml
+BuildRequires: rh-python36-google-auth
 BuildRequires: rh-python36-gitdb2
 BuildRequires: rh-python36-GitPython
 BuildRequires: rh-python36-idna
@@ -178,6 +179,7 @@ Requires: rh-python36-djangorestframework
 Requires: rh-python36-djangorestframework-yaml
 Requires: rh-python36-gitdb2
 Requires: rh-python36-GitPython
+Requires: rh-python36-google-auth
 Requires: rh-python36-idna
 Requires: rh-python36-incremental
 Requires: rh-python36-inflect
@@ -395,6 +397,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Oct 16 2019 22:49:32 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.697
+- New Git version build: 7.0.0.697
 * Wed Oct 16 2019 22:23:16 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
 * Wed Oct 16 2019 21:22:45 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
 * Wed Oct 16 2019 20:56:48 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.695
