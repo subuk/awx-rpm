@@ -89,6 +89,7 @@ BuildRequires: rh-python36-jaraco.text
 BuildRequires: rh-python36-jsonbfield
 BuildRequires: rh-python36-jsonschema
 BuildRequires: rh-python36-kombu
+BuildRequires: rh-python36-kubernetes
 BuildRequires: rh-python36-more-itertools
 BuildRequires: rh-python36-msrest
 BuildRequires: rh-python36-msrestazure
@@ -192,6 +193,7 @@ Requires: rh-python36-jaraco.text
 Requires: rh-python36-jsonbfield
 Requires: rh-python36-jsonschema
 Requires: rh-python36-kombu
+Requires: rh-python36-kubernetes
 Requires: rh-python36-more-itertools
 Requires: rh-python36-msrest
 Requires: rh-python36-msrestazure
