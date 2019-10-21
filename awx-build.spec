@@ -256,8 +256,6 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %setup -q -n awx-8.0.0
 
 %install
-mkdir -p /var/log/tower
-
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/
 scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
@@ -274,7 +272,7 @@ export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
 
-scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOGGING['loggers']['awx']['handlers']=['console']"
+scl enable rh-python36 rh-postgresql10 "LOG_AGGREGATOR_LOGGERS=false LOG_AGGREGATOR_ENABLED=false $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOGGING['loggers']['awx']['handlers']=['console']"
 
 # Cleanup
 unset PYTHONPATH
@@ -397,6 +395,7 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Oct 21 2019 21:49:21 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
 * Mon Oct 21 2019 17:56:45 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
 - New Git version build: 8.0.0.0
 * Mon Oct 21 2019 16:56:54 +0000 Martin Juhl <mj@casalogic.dk> 7.0.0.757
