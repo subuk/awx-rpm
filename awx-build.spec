@@ -272,7 +272,7 @@ export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
 
-scl enable rh-python36 rh-postgresql10 "LOG_AGGREGATOR_LOGGERS=false LOG_AGGREGATOR_ENABLED=false $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOGGING['loggers']['awx']['handlers']=['console']"
+scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOG_AGGREGATOR_AUDIT=False"
 
 # Cleanup
 unset PYTHONPATH
@@ -395,6 +395,8 @@ rm -f /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Oct 21 2019 22:16:36 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
+* Mon Oct 21 2019 22:14:27 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
 * Mon Oct 21 2019 21:49:21 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
 * Mon Oct 21 2019 17:56:45 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.0
 - New Git version build: 8.0.0.0
