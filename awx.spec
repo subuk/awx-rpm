@@ -272,7 +272,7 @@ export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/opt/rh/rh-python36/root/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
 
-scl enable rh-python36 rh-postgresql10 "LOG_AGGREGATOR_AUDIT=False $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOGGING['loggers']['awx']['handlers']=['console']"
+scl enable rh-python36 rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear --settings LOG_AGGREGATOR_AUDIT=False"
 
 # Cleanup
 unset PYTHONPATH
