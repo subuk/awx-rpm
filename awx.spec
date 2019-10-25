@@ -355,7 +355,6 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %systemd_postun awx-daphne
 %systemd_postun awx-web
 %endif
-rm -f /var/lib/awx/venv/awx
 
 %clean
 
