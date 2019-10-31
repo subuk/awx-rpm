@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 8.0.0.154
+Version: 9.0.0.6
 Release: 1%{dist}
-Source0: awx-8.0.0.154.tar.gz
+Source0: awx-9.0.0.6.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -253,7 +253,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{summary}
 
 %prep
-%setup -q -n awx-8.0.0
+%setup -q -n awx-9.0.0
 
 %install
 # Setup build environment
@@ -284,7 +284,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 8.0.0 > %{buildroot}%{service_homedir}/.tower_version
+echo 9.0.0 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -395,6 +395,8 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Oct 31 2019 17:53:42 +0000 Martin Juhl <mj@casalogic.dk> 9.0.0.6
+- New Git version build: 9.0.0.6
 * Thu Oct 31 2019 15:25:11 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.154
 - New Git version build: 8.0.0.154
 * Thu Oct 31 2019 01:37:03 +0000 Martin Juhl <mj@casalogic.dk> 8.0.0.152
