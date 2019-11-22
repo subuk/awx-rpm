@@ -395,6 +395,8 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Fri Nov 22 2019 18:24:57 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.140
+- New Git version build: 9.0.1.140
 * Fri Nov 22 2019 16:24:51 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.138
 - New Git version build: 9.0.1.138
 * Fri Nov 22 2019 00:54:58 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.135
