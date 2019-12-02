@@ -131,6 +131,7 @@ BuildRequires: rh-python36-twilio
 BuildRequires: rh-python36-txaio
 BuildRequires: rh-python36-urllib3
 BuildRequires: rh-python36-websocket_client
+BuildRequires: rh-python36-zipp
 BuildRequires: rh-python36-zope.interface
 BuildRequires: xmlsec1-devel
 BuildRequires: xmlsec1-openssl-devel
@@ -242,6 +243,7 @@ Requires: rh-python36-txaio
 Requires: rh-python36-urllib3
 Requires: rh-python36-websocket_client
 Requires: rh-python36-wheel
+Requires: rh-python36-zipp
 Requires: rh-python36-zope.interface
 Requires: sshpass
 Requires: subversion
