@@ -76,6 +76,7 @@ BuildRequires: rh-python36-google-auth
 BuildRequires: rh-python36-gitdb2
 BuildRequires: rh-python36-GitPython
 BuildRequires: rh-python36-idna
+BuildRequires: rh-python36-importlib_metadata
 BuildRequires: rh-python36-incremental
 BuildRequires: rh-python36-inflect
 BuildRequires: rh-python36-irc
@@ -181,6 +182,7 @@ Requires: rh-python36-gitdb2
 Requires: rh-python36-GitPython
 Requires: rh-python36-google-auth
 Requires: rh-python36-idna
+Requires: rh-python36-importlib_metadata
 Requires: rh-python36-incremental
 Requires: rh-python36-inflect
 Requires: rh-python36-irc
@@ -395,6 +397,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Dec 02 2019 20:27:31 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 19:22:03 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 18:52:03 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 18:22:03 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
