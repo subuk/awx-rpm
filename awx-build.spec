@@ -131,6 +131,7 @@ BuildRequires: rh-python36-twilio
 BuildRequires: rh-python36-txaio
 BuildRequires: rh-python36-urllib3
 BuildRequires: rh-python36-websocket_client
+BuildRequires: rh-python36-zipp
 BuildRequires: rh-python36-zope.interface
 BuildRequires: xmlsec1-devel
 BuildRequires: xmlsec1-openssl-devel
@@ -242,6 +243,7 @@ Requires: rh-python36-txaio
 Requires: rh-python36-urllib3
 Requires: rh-python36-websocket_client
 Requires: rh-python36-wheel
+Requires: rh-python36-zipp
 Requires: rh-python36-zope.interface
 Requires: sshpass
 Requires: subversion
@@ -397,6 +399,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Mon Dec 02 2019 23:10:39 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 21:52:04 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 21:22:04 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
 * Mon Dec 02 2019 20:52:04 +0000 Martin Juhl <mj@casalogic.dk> 9.0.1.262
