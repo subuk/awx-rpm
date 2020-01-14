@@ -290,7 +290,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 9.1.1 > %{buildroot}%{service_homedir}/.tower_version
+echo 9.1.0 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -401,6 +401,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jan 14 2020 18:21:53 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.131
 * Tue Jan 14 2020 17:55:00 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.131
 - New Git version build: 9.1.0.131
 * Tue Jan 14 2020 13:03:00 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.129
