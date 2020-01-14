@@ -104,6 +104,7 @@ BuildRequires: rh-python36-pyasn1
 BuildRequires: rh-python36-pyasn1-modules
 BuildRequires: rh-python36-pygerduty
 BuildRequires: rh-python36-pyparsing
+BuildRequires: rh-python36-pyrsistent
 BuildRequires: rh-python36-pytest-runner
 BuildRequires: rh-python36-python
 BuildRequires: rh-python36-python-dateutil
@@ -211,6 +212,7 @@ Requires: rh-python36-pyasn1
 Requires: rh-python36-pyasn1-modules
 Requires: rh-python36-pygerduty
 Requires: rh-python36-pyparsing
+Requires: rh-python36-pyrsistent
 Requires: rh-python36-python
 Requires: rh-python36-python
 Requires: rh-python36-python-dateutil
