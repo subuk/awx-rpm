@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 9.1.0.127
+Version: 9.1.0.129
 Release: 1%{dist}
-Source0: awx-9.1.0.127.tar.gz
+Source0: awx-9.1.0.129.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -104,6 +104,7 @@ BuildRequires: rh-python36-pyasn1
 BuildRequires: rh-python36-pyasn1-modules
 BuildRequires: rh-python36-pygerduty
 BuildRequires: rh-python36-pyparsing
+BuildRequires: rh-python36-pyrsistent
 BuildRequires: rh-python36-pytest-runner
 BuildRequires: rh-python36-python
 BuildRequires: rh-python36-python-dateutil
@@ -211,6 +212,7 @@ Requires: rh-python36-pyasn1
 Requires: rh-python36-pyasn1-modules
 Requires: rh-python36-pygerduty
 Requires: rh-python36-pyparsing
+Requires: rh-python36-pyrsistent
 Requires: rh-python36-python
 Requires: rh-python36-python
 Requires: rh-python36-python-dateutil
@@ -288,7 +290,7 @@ mkdir -p %{buildroot}%{service_logdir}
 mkdir -p %{buildroot}%{_prefix}/bin
 mkdir -p %{buildroot}%{service_configdir}
 mkdir -p %{buildroot}/var/lib/awx/
-echo 9.1.0 > %{buildroot}%{service_homedir}/.tower_version
+echo 9.1.1 > %{buildroot}%{service_homedir}/.tower_version
 
 
 cp %{_sourcedir}/settings.py.dist %{buildroot}%{service_configdir}/settings.py
@@ -399,6 +401,8 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Jan 14 2020 13:03:00 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.129
+- New Git version build: 9.1.0.129
 * Mon Jan 13 2020 23:22:06 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.127
 * Mon Jan 13 2020 22:55:13 +0000 Martin Juhl <mj@casalogic.dk> 9.1.0.127
 - New Git version build: 9.1.0.127
