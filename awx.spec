@@ -401,6 +401,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Jan 15 2020 07:22:12 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 06:52:11 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 06:22:09 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 05:52:09 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
