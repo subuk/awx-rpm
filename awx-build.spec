@@ -52,6 +52,7 @@ BuildRequires: rh-python36-azure-common
 BuildRequires: rh-python36-azure-keyvault
 BuildRequires: rh-python36-azure-nspkg
 BuildRequires: rh-python36-build
+BuildRequires: rh-python36-cachetools
 BuildRequires: rh-python36-celery
 BuildRequires: rh-python36-certifi
 BuildRequires: rh-python36-cffi
@@ -160,6 +161,7 @@ Requires: rh-python36-azure-common
 Requires: rh-python36-azure-keyvault
 Requires: rh-python36-azure-nspkg
 Requires: rh-python36-build
+Requires: rh-python36-cachetools
 Requires: rh-python36-celery
 Requires: rh-python36-certifi
 Requires: rh-python36-cffi
@@ -401,6 +403,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Wed Jan 15 2020 08:14:00 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 07:22:12 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 06:52:11 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
 * Wed Jan 15 2020 06:22:09 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.9
