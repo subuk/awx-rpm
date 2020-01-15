@@ -52,6 +52,7 @@ BuildRequires: rh-python36-azure-common
 BuildRequires: rh-python36-azure-keyvault
 BuildRequires: rh-python36-azure-nspkg
 BuildRequires: rh-python36-build
+BuildRequires: rh-python36-cachetools
 BuildRequires: rh-python36-celery
 BuildRequires: rh-python36-certifi
 BuildRequires: rh-python36-cffi
@@ -160,6 +161,7 @@ Requires: rh-python36-azure-common
 Requires: rh-python36-azure-keyvault
 Requires: rh-python36-azure-nspkg
 Requires: rh-python36-build
+Requires: rh-python36-cachetools
 Requires: rh-python36-celery
 Requires: rh-python36-certifi
 Requires: rh-python36-cffi
