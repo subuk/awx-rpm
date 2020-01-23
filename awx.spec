@@ -272,6 +272,7 @@ scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
 from awx.settings.defaults import *
 DEFAULTS_SNAPSHOT = {}
+CLUSTER_HOST_ID = socket.gethostname()
 STATIC_ROOT = "static/"
 LOG_AGGREGATOR_AUDIT = False
 EOF
