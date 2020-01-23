@@ -272,6 +272,7 @@ scl enable rh-python36 "pip3 install --root=$RPM_BUILD_ROOT ."
 cat > _awx_rpmbuild_collectstatic_settings.py <<EOF
 from awx.settings.defaults import *
 DEFAULTS_SNAPSHOT = {}
+CLUSTER_HOST_ID = "awx-static"
 STATIC_ROOT = "static/"
 LOG_AGGREGATOR_AUDIT = False
 EOF
@@ -403,6 +404,7 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Thu Jan 23 2020 22:12:04 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.136
 * Thu Jan 23 2020 21:22:12 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.136
 * Thu Jan 23 2020 20:55:39 +0000 Martin Juhl <mj@casalogic.dk> 9.1.1.136
 - New Git version build: 9.1.1.136
