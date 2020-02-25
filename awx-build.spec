@@ -11,9 +11,9 @@
 
 Summary: Ansible AWX
 Name: ansible-awx
-Version: 9.2.0.189
+Version: 9.2.0.191
 Release: 1%{dist}
-Source0: awx-9.2.0.189.tar.gz
+Source0: awx-9.2.0.191.tar.gz
 Source1: settings.py.dist
 %if 0%{?el7}
 Source2: awx-cbreceiver.service
@@ -404,6 +404,8 @@ ln -sfn /opt/rh/rh-python36/root /var/lib/awx/venv/awx
 %endif
 
 %changelog
+* Tue Feb 25 2020 21:25:33 +0000 Martin Juhl <mj@casalogic.dk> 9.2.0.191
+- New Git version build: 9.2.0.191
 * Tue Feb 25 2020 20:25:34 +0000 Martin Juhl <mj@casalogic.dk> 9.2.0.189
 - New Git version build: 9.2.0.189
 * Tue Feb 25 2020 16:55:24 +0000 Martin Juhl <mj@casalogic.dk> 9.2.0.187
