@@ -40,6 +40,8 @@ BuildRequires: xmlsec1-devel
 BuildRequires: xmlsec1-openssl-devel
 BuildRequires: postgresql-devel
 
+# Generated BuildRequires
+
 Requires: bubblewrap
 Requires: curl
 Requires: git
@@ -52,6 +54,8 @@ Requires: sshpass
 Requires: subversion
 Requires: xmlsec1-devel
 Requires: xmlsec1-openssl-devel
+
+# Generated Requires
 
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %{?systemd_requires}
@@ -78,10 +82,10 @@ EOF
 export DJANGO_SETTINGS_MODULE="_awx_rpmbuild_collectstatic_settings"
 export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
-sed -i 's$/usr/bin/awx-python$/usr/bin/python3$g' $RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage
+sed -i 's$/usr/bin/awx-python$/usr/bin/python3$g' $RPM_BUILD_ROOT/usr/bin/awx-manage
 
 %if 0%{?el7}
-scl enable rh-postgresql10 "$RPM_BUILD_ROOT/opt/rh/rh-python36/root/usr/bin/awx-manage collectstatic --noinput --clear"
+scl enable rh-postgresql10 "$RPM_BUILD_ROOT/usr/bin/awx-manage collectstatic --noinput --clear"
 %else
 $RPM_BUILD_ROOT/usr/bin/awx-manage collectstatic --noinput --clear
 %endif
