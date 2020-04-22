@@ -1,5 +1,5 @@
 %define  debug_package %{nil}
-%define _prefix /opt/awx
+%define _prefix /var/lib/awx
 %define _mandir %{_prefix}/share/man
 %global __os_install_post %{nil}
 
@@ -66,6 +66,9 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %prep
 %setup -q -n awx-¤VERSION¤
 
+%build
+make sdist
+
 %install
 # Setup build environment
 pip3 install --root=$RPM_BUILD_ROOT .
@@ -84,11 +87,11 @@ export PYTHONPATH="$PYTHONPATH:."
 mkdir -p static/
 sed -i 's$/usr/bin/awx-python$/usr/bin/python3$g' $RPM_BUILD_ROOT/usr/bin/awx-manage
 
-%if 0%{?el7}
-scl enable rh-postgresql10 "$RPM_BUILD_ROOT/usr/bin/awx-manage collectstatic --noinput --clear"
-%else
+#%if 0%{?el7}
+#scl enable rh-postgresql10 "$RPM_BUILD_ROOT/usr/bin/awx-manage collectstatic --noinput --clear"
+#%else
 $RPM_BUILD_ROOT/usr/bin/awx-manage collectstatic --noinput --clear
-%endif
+#%endif
 
 # Cleanup
 unset PYTHONPATH
@@ -131,8 +134,8 @@ cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
 cp %{_sourcedir}/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/awx-rpm-logo.svg
-mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-header.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg.orig
-mv $RPM_BUILD_ROOT/opt/awx/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
+mv $RPM_BUILD_ROOT/var/lib/awx/static/assets/logo-header.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg.orig
+mv $RPM_BUILD_ROOT/var/lib/awx/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg
 
