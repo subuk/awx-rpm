@@ -32,7 +32,7 @@ AutoReqProv: false
 
 BuildRequires: git
 BuildRequires: tcl
-BuildRequires: sqlite
+BuildRequires: sqlite >= 3.8.3
 BuildRequires: libcurl-devel
 BuildRequires: libffi-devel
 BuildRequires: libtool-ltdl-devel
@@ -128,8 +128,8 @@ done
 mkdir -p %{buildroot}/var/lib/awx/venv
 
 # Install docs
-mkdir -p $RPM_BUILD_ROOT/usr/share/doc/awx/
-cp %{_sourcedir}/nginx.conf.example $RPM_BUILD_ROOT/usr/share/doc/awx/
+mkdir -p $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/
+cp %{_sourcedir}/nginx.conf.example $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/
 
 # Install VENV Script
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
@@ -173,13 +173,15 @@ ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib
 
 %files
 %defattr(0644, awx, awx, 0755)
-%doc nginx.conf.example
+%doc /usr/share/doc/ansible-awx/nginx.conf.example
 %attr(0755, root, root) /usr/bin/awx-manage
 %attr(0755, root, root) /usr/bin/awx-create-venv
 /usr/bin/awx-create-venv
 /usr/lib/python3.6/site-packages/awx
 %attr(0755, root, root) /usr/lib/python3.6/site-packages/awx/plugins/*/*.py
-%attr(0755, awx, awx) /var/lib/awx/public/static
+/var/lib/awx/public/static/assets/logo-login.svg
+/var/lib/awx/public/static/assets/logo-header.svg
+/var/lib/awx/public/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}/venv
 %{service_homedir}/.tower_version
@@ -187,8 +189,6 @@ ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib
 %config %{service_configdir}/settings.py
 /usr/share/doc/awx/
 #/var/lib/awx/bin/python
-/var/lib/awx/public/favicon.ico
-/var/lib/awx/public/wsgi.py
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
