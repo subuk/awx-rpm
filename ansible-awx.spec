@@ -128,6 +128,7 @@ done
 mkdir -p %{buildroot}/var/lib/awx/venv
 
 # Install docs
+mkdir -p /usr/share/doc/awx/
 cp %{_sourcedir}/nginx.conf.example /usr/share/doc/awx/
 
 # Install VENV Script
