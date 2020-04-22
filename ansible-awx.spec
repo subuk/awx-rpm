@@ -32,6 +32,7 @@ AutoReqProv: false
 
 BuildRequires: git
 BuildRequires: tcl
+BuildRequires: sqlite
 BuildRequires: libcurl-devel
 BuildRequires: libffi-devel
 BuildRequires: libtool-ltdl-devel
