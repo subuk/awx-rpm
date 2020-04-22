@@ -128,7 +128,7 @@ done
 mkdir -p %{buildroot}/var/lib/awx/venv
 
 # Install docs
-cp %{_sourcedir}/nginx.conf.example ./
+cp %{_sourcedir}/nginx.conf.example /usr/share/doc/awx/
 
 # Install VENV Script
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
@@ -136,8 +136,8 @@ cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
 cp %{_sourcedir}/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/awx-rpm-logo.svg
-mv $RPM_BUILD_ROOT/var/lib/awx/static/assets/logo-header.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg.orig
-mv $RPM_BUILD_ROOT/var/lib/awx/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
+mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg.orig
+mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg
 
@@ -178,23 +178,16 @@ ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib
 /usr/bin/awx-create-venv
 /usr/lib/python3.6/site-packages/awx
 %attr(0755, root, root) /usr/lib/python3.6/site-packages/awx/plugins/*/*.py
-%attr(0755, awx, awx) /var/lib/public/static
+%attr(0755, awx, awx) /var/lib/awx/public/static
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
 %dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}/venv
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config %{service_configdir}/settings.py
-/usr/lib/python3.6/site-packages/awx-*.egg-info/
 /usr/share/doc/awx/
 #/var/lib/awx/bin/python
-/usr/bin/ansible-tower-service
-/usr/bin/ansible-tower-setup
-/usr/bin/awx-python
-/usr/bin/failure-event-handler
-/usr/share/awx
-/usr/share/sosreport/sos/plugins/tower.py
-/var/lib/awx/favicon.ico
-/var/lib/awx/wsgi.py
+/var/lib/awx/public/favicon.ico
+/var/lib/awx/public/wsgi.py
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
@@ -205,5 +198,5 @@ ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib
 %attr(0644, root, root) %{_unitdir}/awx.service
 
 %changelog
-* Mon Mar 23 2020 08:22:09 +0000 Martin Juhl <mj@casalogic.dk> 9.3.0.213
-- New Git version build: 2.1.0.143
+* Wed Apr 22 2020 10:00:00 +0000 Martin Juhl <mju@miracle.dk> 11.0.0
+- New build
