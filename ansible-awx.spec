@@ -144,7 +144,7 @@ ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib
 
 #Move stuff
 mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr/share/doc/awx/* $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/
-mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr/bin* $RPM_BUILD_ROOT/usr/bin/*
+mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr/bin/* $RPM_BUILD_ROOT/usr/bin/
 mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr/share/sosreport $RPM_BUILD_ROOT/usr/share/
 mkdir -p $RPM_BUILD_ROOT/var/lib/awx/__pycache__/
 mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/var/lib/awx/__pycache__/wsgi.cpython-36.pyc $RPM_BUILD_ROOT/var/lib/awx/__pycache__/
@@ -197,7 +197,7 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config %{service_configdir}/settings.py
-/usr/share/doc/awx/
+/usr/share/doc/ansible-awx/
 /usr/lib/python3.6/site-packages/awx-${version}.dist-info
 /usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
 /usr/share/sosreport/sos/plugins/tower.py
