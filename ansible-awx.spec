@@ -202,6 +202,10 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 /usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
 /usr/share/sosreport/sos/plugins/tower.py
 /var/lib/awx/__pycache__/wsgi.cpython-36.pyc
+/usr/bin/ansible-tower-service
+/usr/bin/ansible-tower-setup
+/usr/bin/failure-event-handler
+/usr/bin/awx-python
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
