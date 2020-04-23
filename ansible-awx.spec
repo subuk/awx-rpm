@@ -41,6 +41,7 @@ BuildRequires: openldap-devel
 BuildRequires: xmlsec1-devel
 BuildRequires: xmlsec1-openssl-devel
 BuildRequires: postgresql-devel
+BuildRequires: python3-django-rest-swagger
 
 # Generated BuildRequires
 
