@@ -49,6 +49,8 @@ Requires: curl
 Requires: git
 Requires: sshpass
 Requires: subversion
+Requires: pwgen
+Requires: python3-django-rest-swagger
 
 # Generated Requires
 
