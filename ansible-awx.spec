@@ -198,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config %{service_configdir}/settings.py
 /usr/share/doc/ansible-awx/
-/usr/lib/python3.6/site-packages/awx-${version}.dist-info
+/usr/lib/python3.6/site-packages/awx-%{version}.dist-info
 /usr/share/sosreport/sos/plugins/__pycache__/tower.cpython-36.pyc
 /usr/share/sosreport/sos/plugins/tower.py
 /var/lib/awx/__pycache__/wsgi.cpython-36.pyc
