@@ -67,7 +67,7 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 %setup -q -n awx-¤VERSION¤
 
 %build
-make sdist
+VENV_BASE="/var/lib/awx/venv" make sdist
 
 %install
 # Setup build environment
