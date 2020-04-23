@@ -47,15 +47,8 @@ BuildRequires: postgresql-devel
 Requires: bubblewrap
 Requires: curl
 Requires: git
-Requires: libcurl-devel
-Requires: libffi-devel
-Requires: libtool-ltdl-devel
-Requires: libxslt-devel
-Requires: openldap-devel
 Requires: sshpass
 Requires: subversion
-Requires: xmlsec1-devel
-Requires: xmlsec1-openssl-devel
 
 # Generated Requires
 
