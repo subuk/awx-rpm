@@ -139,6 +139,8 @@ mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg $RPM_BUILD_R
 mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg
+cp installer/roles/image_build/files/rsyslog.conf $RPM_BUILD_ROOT/var/lib/awx/rsyslog/
+
 
 #Move stuff
 mv $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr/share/doc/awx/* $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/
@@ -190,8 +192,8 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 /var/lib/awx/public/static/assets/logo-login.svg
 /var/lib/awx/public/static/assets/logo-header.svg
 /var/lib/awx/public/static
-%dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}
-%dir %attr(0750, %{service_user}, %{service_group}) %{service_homedir}/venv
+%dir %attr(0755, %{service_user}, %{service_group}) %{service_homedir}
+%dir %attr(0755, %{service_user}, %{service_group}) %{service_homedir}/venv
 %{service_homedir}/.tower_version
 %dir %attr(0770, %{service_user}, %{service_group}) %{service_logdir}
 %config %{service_configdir}/settings.py
