@@ -78,6 +78,7 @@ VENV_BASE="/var/lib/awx/venv" make sdist
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/usr/share/doc/ansible-awx
 cat requirements/requirements_ansible.txt |sed 's/#.*//g' |grep -v setuptools | grep -v pip | sed '/^ansible=/d' | sed 's/=.*//g' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/ansible-core-reqs.txt
+cp requirements/requirements.txt $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-reqs.txt
 cd dist
 tar zxvf *.tar.gz
 rm *.tar.gz
