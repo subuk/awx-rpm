@@ -156,6 +156,7 @@ mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg $RPM_BUILD_R
 mv $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg.orig
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-header.svg
 ln -s /var/lib/awx/public/static/assets/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/logo-login.svg
+mkdir -p $RPM_BUILD_ROOT/var/lib/awx/rsyslog/
 cp installer/roles/image_build/files/rsyslog.conf $RPM_BUILD_ROOT/var/lib/awx/rsyslog/
 
 
