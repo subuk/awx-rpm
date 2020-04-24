@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys, getopt, os, datetime, rpm
 
@@ -44,7 +44,7 @@ def main(argv):
      pythonversion = 3
    else:
      if int(pythonversion) not in (2,3):
-       print pythonversion,'is an invalid python version, please select 2 or 3'
+       print(pythonversion,'is an invalid python version, please select 2 or 3')
        sys.exit(3)
 
    try:
@@ -53,14 +53,14 @@ def main(argv):
      if int(pythonversion) == 2:
        ansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
      else:
-       ansibleversion = os.popen("scl enable rh-python36 \"pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1\"").read().replace('\n','')
+       ansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
    else:
      if int(pythonversion) == 2:
        checkansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
      else:
-       checkansibleversion = os.popen("scl enable rh-python36 \"pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'\"" % ansibleversion).read().replace('\n','')
+       checkansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
      if checkansibleversion == "":
-       print ansibleversion,'is an invalid ansible version'
+       print(ansibleversion,'is an invalid ansible version')
        sys.exit(3)   
 
    try:
@@ -69,7 +69,7 @@ def main(argv):
      venvpath = "/var/lib/awx/venv"
    else:
      if not os.path.isdir(venvpath):
-       print 'The venv path:',venvpath,'doesn\'t exist'
+       print('The venv path:',venvpath,'doesn\'t exist')
        sys.exit(3)
 
    try:
@@ -81,7 +81,7 @@ def main(argv):
    venvfullpath = '%s/%s' % (venvpath,venvname)
 
    if os.path.isdir(venvfullpath):
-     print 'The venv:',venvfullpath,'does already exist'
+     print('The venv:',venvfullpath,'does already exist')
      sys.exit(3)
 
    print('''
@@ -91,16 +91,16 @@ Create Virtual Enviroment at:
 Using Python {pythonversion}
 
 Installing Ansible {ansibleversion}
-   ''').format(venvpath=venvpath,venvname=venvname,pythonversion=pythonversion,ansibleversion=ansibleversion)
+   '''.format(venvpath=venvpath,venvname=venvname,pythonversion=pythonversion,ansibleversion=ansibleversion))
 
    if int(pythonversion) == 2:
      print os.popen('virtualenv %s' % (venvfullpath)).read()
      print os.popen('%s/bin/pip install python-memcached psutil' % (venvfullpath)).read()
      print os.popen('%s/bin/pip install -U \"ansible == %s\"' % (venvfullpath,ansibleversion)).read()
    else:
-     print os.popen('scl enable rh-python36 "virtualenv %s"' % (venvfullpath)).read()
-     print os.popen('scl enable rh-python36 "%s/bin/pip3 install python-memcached psutil"' % (venvfullpath)).read()
-     print os.popen('scl enable rh-python36 \"%s/bin/pip3 install -U \\"ansible == %s\\"\"' % (venvfullpath,ansibleversion)).read()
+     print os.popen('virtualenv %s' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip3 install python-memcached psutil' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip3 install -U "ansible == %s"' % (venvfullpath,ansibleversion)).read()
 
 if __name__ == "__main__":
    main(sys.argv[1:])
