@@ -71,6 +71,10 @@ VENV_BASE="/var/lib/awx/venv" make sdist
 
 %install
 # Setup build environment
+cd dist
+tar zxvf *.tar.gz
+rm *.tar.gz
+cd *
 pip3 install --root=$RPM_BUILD_ROOT .
 
 # Collect django static

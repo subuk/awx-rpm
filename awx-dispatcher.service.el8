@@ -1,5 +1,6 @@
 [Unit]
-Description=AWX daphne service
+Description=AWX Dispatcher
+After=syslog.target network.target
 PartOf=awx.service
 After=awx.service
 
@@ -9,7 +10,7 @@ Group=awx
 EnvironmentFile=-/etc/sysconfig/awx
 Environment=AWX_SETTINGS_FILE=/etc/tower/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
-ExecStart=daphne -b 127.0.0.1 -p 8051 -b 127.0.0.1 -p 8051 --websocket_timeout -1 awx.asgi:channel_layer
+ExecStart=/usr/bin/awx-manage run_dispatcher
 Restart=on-failure
 RestartSec=2s
 
