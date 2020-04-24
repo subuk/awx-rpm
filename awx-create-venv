@@ -16,12 +16,13 @@ Also: The packages: "rh-python36-python-pip python2-pip rh-python36-python-virtu
   -a, --ansibleversion       ansible version to install in venv, defaults to latest
   -n, --venvname             name of venv, defaults to "{pythonversion}-{ansibleversion}-{date}"
   -e, --venvpath             path where the venv will be created, defaults to /var/lib/awx/venv/
+  -f, --fulldeps             install a lot of awx specific dependencies in the venv, recommended for standard venv (default: off)
    ''')
 
 def main(argv):
 
    try:
-      opts, args = getopt.getopt(argv,"hp:e:a:n:",["pythonversion","venvpath","ansibleversion","venvname"])
+      opts, args = getopt.getopt(argv,"hp:e:a:n:f",["pythonversion","venvpath","ansibleversion","venvname","fulldeps"])
    except getopt.GetoptError:
       helpscreen()
       sys.exit(2)
@@ -37,6 +38,8 @@ def main(argv):
          venvname = arg
       elif opt in ("-e", "--venvpath"):
          venvpath = arg
+      elif opt in ("-f", "--fulldeps"):
+         fulldeps = 1
 
    try:
      pythonversion
@@ -102,10 +105,15 @@ Installing Ansible {ansibleversion}
      print(os.popen('%s/bin/pip3 install python-memcached psutil' % (venvfullpath)).read())
      print(os.popen('%s/bin/pip3 install -U "ansible == %s"' % (venvfullpath,ansibleversion)).read())
 
+   if (fulldeps):
+     if int(pythonversion) == 2:
+        print(os.popen('for i in `cat /usr/share/doc/ansible-awx/ansible-core-reqs.txt`; do %s/bin/pip install $i; done' % (venvfullpath)).read())
+     else:
+        print(os.popen('for i in `cat /usr/share/doc/ansible-awx/ansible-core-reqs.txt`; do %s/bin/pip3 install $i; done' % (venvfullpath)).read())
+
    if not os.path.islink("/var/lib/awx/venv/ansible"):
      print("No default Ansible is set, using this environment: %s" %(venvfullpath))
      os.symlink(venvfullpath,"/var/lib/awx/venv/ansible")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
-
