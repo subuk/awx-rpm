@@ -14,11 +14,16 @@ Name: ansible-awx
 Version: ¤VERSION¤
 Release: 1%{dist}
 Source0: ¤SOURCE¤
-Source2: awx-cbreceiver.service
-Source3: awx-dispatcher.service
-Source5: awx-channels-worker.service
-Source6: awx-daphne.service
-Source7: awx-web.service
+Source2: awx-cbreceiver.service.el7
+Source3: awx-dispatcher.service.el7
+Source5: awx-wsbroadcast.service.el7
+Source6: awx-daphne.service.el7
+Source7: awx-web.service.el7
+Source12: awx-cbreceiver.service.el8
+Source13: awx-dispatcher.service.el8
+Source15: awx-wsbroadcast.service.el8
+Source16: awx-daphne.service.el8
+Source17: awx-web.service.el8
 Source8: nginx.conf.example
 Source9: awx-create-venv
 Source10: awx-rpm-logo.svg
@@ -115,8 +120,14 @@ mv static %{buildroot}/var/lib/awx/public/static
 
 # Install systemd configuration
 mkdir -p %{buildroot}%{_unitdir}
-for service in awx-cbreceiver awx-dispatcher awx-channels-worker awx-daphne awx-web awx; do
-    cp %{_sourcedir}/${service}.service %{buildroot}%{_unitdir}/
+%if 0%{?el7}
+EXT=".el7"
+%else
+EXT=".el8"
+%endif
+
+for service in awx-cbreceiver awx-dispatcher awx-wsbroadcast awx-daphne awx-web awx; do
+    cp %{_sourcedir}/${service}.service.$EXT %{buildroot}%{_unitdir}/${service}.service
 done
 
 # Create fake python executable
