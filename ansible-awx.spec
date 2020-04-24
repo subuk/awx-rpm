@@ -179,21 +179,21 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 %post
 %systemd_post awx-cbreceiver
 %systemd_post awx-dispatcher
-%systemd_post awx-channels-worker
+%systemd_post awx-wsbroadcast
 %systemd_post awx-daphne
 %systemd_post awx-web
 
 %preun
 %systemd_preun awx-cbreceiver
 %systemd_preun awx-dispatcher
-%systemd_preun awx-channels-worker
+%systemd_preun awx-wsbroadcast
 %systemd_preun awx-daphne
 %systemd_preun awx-web
 
 %postun
 %systemd_postun awx-cbreceiver
 %systemd_postun awx-dispatcher
-%systemd_postun awx-channels-worker
+%systemd_postun awx-wsbroadcast
 %systemd_postun awx-daphne
 %systemd_postun awx-web
 
@@ -224,11 +224,12 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 /usr/bin/ansible-tower-setup
 /usr/bin/failure-event-handler
 /usr/bin/awx-python
+/var/lib/awx/rsyslog
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
 %attr(0644, root, root) %{_unitdir}/awx-dispatcher.service
-%attr(0644, root, root) %{_unitdir}/awx-channels-worker.service
+%attr(0644, root, root) %{_unitdir}/awx-wsbroadcast.service
 %attr(0644, root, root) %{_unitdir}/awx-daphne.service
 %attr(0644, root, root) %{_unitdir}/awx-web.service
 %attr(0644, root, root) %{_unitdir}/awx.service
