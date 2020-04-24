@@ -129,7 +129,7 @@ EXT=".el8"
 %endif
 
 for service in awx-cbreceiver awx-dispatcher awx-wsbroadcast awx-daphne awx-web awx; do
-    cp %{_sourcedir}/${service}.service.$EXT %{buildroot}%{_unitdir}/${service}.service
+    cp %{_sourcedir}/${service}.service$EXT %{buildroot}%{_unitdir}/${service}.service
 done
 
 # Create fake python executable
