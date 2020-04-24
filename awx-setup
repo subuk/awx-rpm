@@ -1,0 +1,99 @@
+#!/usr/bin/python3
+
+import sys, getopt, os, datetime, rpm
+
+def helpscreen():
+   print('''
+awx-setup [-options]
+
+Setup tool for AWX-RPM..
+
+ options:
+  -i, --install              Setup and configure AWX-RPM, standard installation, single server
+  -d, --default-venv         Set default virtual environment, located in /var/lib/awx/venv/
+  -l, --list-venvs           List available virtual environments
+   ''')
+
+def main(argv):
+
+   install_status_file = /etc/tower/INSTALLED
+
+   try:
+      opts, args = getopt.getopt(argv,"hid:l",["install","default-venv","list-venvs"])
+   except getopt.GetoptError:
+      helpscreen()
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h' or opt == '--help':
+         helpscreen()
+         sys.exit()
+      elif opt in ("-d", "--default-venv"):
+         defaultvenv = arg
+      elif opt in ("-l", "--list-venvs"):
+         listvenvs = 1
+      elif opt in ("-i", "--install"):
+         install = 1
+
+   try:
+     defaultvenv
+   except:
+     defaultvenv = 0
+   else:
+     if not defaultvenv == 0:
+       if os.path.isdir("/var/lib/awx/venv/%s" % (defaultvenv)):
+         while True:
+           try:
+             os.symlink("/var/lib/awx/venv/%s" % (defaultvenv), "/var/lib/awx/venv/ansible")
+             break
+           except FileExistsError:
+             os.remove("/var/lib/awx/venv/ansible")
+         print("Changed default VENV to: %s" % (defaultvenv))
+       else:
+         print("There doesn't seem to exist a folder at: /var/lib/awx/venv/%s" % (defaultvenv))
+   
+   try:
+     listvenvs
+   except:
+     listvenvs = 0
+
+   if listvenvs:
+     if os.path.islink("/var/lib/awx/venv/ansible"):      
+       defaultvenv = os.readlink("/var/lib/awx/venv/ansible")
+     subfolders = [ f.path for f in os.scandir("/var/lib/awx/venv") if f.is_dir() ]
+     print("default   VENV")
+     for venv in subfolders:
+       if os.path.basename(venv) != "ansible":
+         if venv == defaultvenv:
+           print("   *      %s" % (os.path.basename(venv)))
+         else:
+           print("          %s" % (os.path.basename(venv)))
+
+   try:
+     install
+   except:
+     install = 0
+
+   if install:
+
+     if not os.path.isfile(install_status_file):
+
+       print('Setting up AWX-RPM')
+     
+       print('Configuring SELinux')
+     
+       print(os.popen('yum -y install policycoreutils-python && semanage port -a -t http_port_t -p tcp 8050 && semanage port -a -t http_port_t -p tcp 8051 && semanage port -a -t http_port_t -p tcp 8052 && setsebool -P httpd_can_network_connect 1').read())
+    
+       print('Configuring Firewall (Disabling for now/TODO)')
+
+       print(os.popen('systemctl stop firewalld && systemctl disable firewalld').read())
+
+       
+
+       print(os.popen().read())
+
+     else:
+
+       print("AWX-RPM is already installed and configured..")
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
