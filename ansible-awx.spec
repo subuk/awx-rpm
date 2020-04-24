@@ -73,6 +73,8 @@ Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 
 %build
 VENV_BASE="/var/lib/awx/venv" make sdist
+mkdir -p $RPM_BUILD_ROOT/usr/share/doc/ansible-awx
+cat requirements/requirements_ansible.txt |sed 's/#.*//g' |grep -v setuptools | grep -v pip | sed '/^ansible=/d' | sed 's/=.*//g' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/ansible-core-reqs.txt
 
 %install
 # Setup build environment
