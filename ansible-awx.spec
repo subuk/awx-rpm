@@ -14,6 +14,7 @@ Name: ansible-awx
 Version: ¤VERSION¤
 Release: 1%{dist}
 Source0: ¤SOURCE¤
+Source1: awx-setup
 Source2: awx-cbreceiver.service.el7
 Source3: awx-dispatcher.service.el7
 Source5: awx-wsbroadcast.service.el7
@@ -157,6 +158,7 @@ cp %{_sourcedir}/nginx.conf.example $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/
 # Install VENV Script
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 cp %{_sourcedir}/awx-create-venv $RPM_BUILD_ROOT/usr/bin/
+cp %{_sourcedir}/awx-setup $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT%{service_homedir}/venv
 
 cp %{_sourcedir}/awx-rpm-logo.svg $RPM_BUILD_ROOT/var/lib/awx/public/static/assets/awx-rpm-logo.svg
@@ -233,6 +235,7 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 /usr/bin/failure-event-handler
 /usr/bin/awx-python
 /var/lib/awx/rsyslog
+/usr/bin/awx-setup
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
@@ -243,5 +246,5 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 %attr(0644, root, root) %{_unitdir}/awx.service
 
 %changelog
-* Wed Apr 22 2020 10:00:00 +0000 Martin Juhl <mju@miracle.dk> 11.0.0
+* Wed Apr 22 2020 10:00:00 +0000 Martin Juhl <mju@miracle.dk> 11.1.0
 - New build
