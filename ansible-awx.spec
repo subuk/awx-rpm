@@ -78,7 +78,14 @@ VENV_BASE="/var/lib/awx/venv" make sdist
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/usr/share/doc/ansible-awx
 cat requirements/requirements_ansible.txt |sed 's/#.*//g' |grep -v setuptools | grep -v pip | sed '/^ansible=/d' | sed 's/=.*//g' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/ansible-core-reqs.txt
-cp requirements/requirements.txt $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-reqs.txt
+cat requirements/requirements.txt | sed 's/#.*//g' | grep -v pip |grep -v setuptools | sed 's/=.*//g' | sed 's/\[.*//g' | sed '/^$/d' |sed 's/^/python3-/' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
+
+# Special Package Names
+sed -i 's/python3-importlib-metadata/python3-importlib_metadata/g' $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
+sed -i 's/python3-python-dateutil/python3-dateutil/g' $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
+sed -i 's/python3-pyopenssl/python3-pyOpenSSL/g' $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
+sed -i 's/python3-tacacs_plus/python3-tacacs-plus/g' $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
+
 cd dist
 tar zxvf *.tar.gz
 rm *.tar.gz
