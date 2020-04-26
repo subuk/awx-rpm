@@ -105,12 +105,12 @@ Do you want to continue? '''):
        if os.path.isfile('/etc/yum.repos.d/ansible-awx.repo'):
          os.rename(r'/etc/yum.repos.d/ansible-awx.repo',r'/etc/yum.repos.d/ansible-awx.repo.bak')
 
-       osversion = print(os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\" | cut -c 1-1').read())
+       osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read()
 
        with open('/etc/yum.repos.d/ansible-awx.repo','w') as f:
          f.write('''[ansible-awx]
 name=Ansible AWX
-baseurl=%s/AWX-RPM/CentOS_%s/
+baseurl=%s/AWX-RPM/CentOS_%s
 enabled=1
 gpgcheck=0
 module_hotfixes=True
@@ -165,8 +165,7 @@ module_hotfixes=True
 
        print('Creating Admin user')
 
-       print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', 'password')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell
-').read())
+       print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell').read())
 
        print('Adding example data')
 
