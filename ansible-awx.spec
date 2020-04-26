@@ -59,8 +59,8 @@ Requires: sshpass
 Requires: subversion
 Requires: pwgen
 Requires: supervisor
-Requires: virtualenv	# awx-create-venv
-Reqiures: gcc	# awx-create-venv
+Requires: virtualenv
+Reqiures: gcc
 %if 0%{?el7}
 Requires: yum-plugin-versionlock
 %else
