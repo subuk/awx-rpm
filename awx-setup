@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, getopt, os, datetime, rpm
+import sys, getopt, os, datetime, rpm, urllib
 
 def helpscreen():
    print('''
@@ -16,7 +16,9 @@ Setup tool for AWX-RPM..
 
 def main(argv):
 
-   install_status_file = /etc/tower/INSTALLED
+   install_status_file = "/etc/tower/INSTALLED"
+
+   repopath = "http://aptaobs01.aperta.lan:82"
 
    try:
       opts, args = getopt.getopt(argv,"hid:l",["install","default-venv","list-venvs"])
@@ -77,6 +79,11 @@ def main(argv):
 
      if not os.path.isfile(install_status_file):
 
+       if not query_yes_no('''This is going to install AWX-RPM and all dependencies.. This installer is meant to be easy, not customizable.. 
+Check https://awx.wiki for advanced install methods and more info..
+Do you want to continue? '''):
+         sys.exit(0)
+
        print('Setting up AWX-RPM')
      
        print('Configuring SELinux')
@@ -87,13 +94,150 @@ def main(argv):
 
        print(os.popen('systemctl stop firewalld && systemctl disable firewalld').read())
 
-       
+       print('Configure Repositories')
 
-       print(os.popen().read())
+       print('Adding EPEL')
+
+       print(os.popen('yum -y -q install epel-release').read())
+
+       print('Adding AWX-RPM Repo')
+
+       if os.path.isfile('/etc/yum.repos.d/ansible-awx.repo'):
+         os.rename(r'/etc/yum.repos.d/ansible-awx.repo',r'/etc/yum.repos.d/ansible-awx.repo.bak')
+
+       osversion = print(os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\" | cut -c 1-1').read())
+
+       with open('/etc/yum.repos.d/ansible-awx.repo','w') as f:
+         f.write('''[ansible-awx]
+name=Ansible AWX
+baseurl=%s/AWX-RPM/CentOS_%s/
+enabled=1
+gpgcheck=0
+module_hotfixes=True
+''' % (repopath,osversion))
+         #f.write('gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-%s' % (osversion)) # TODO Fix download of GPG
+
+       #urllib.urlretrieve('%s/AWX/RPM-GPG-KEY-EPEL-%s','/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-%s' % (repopath,osversion,osversion)) # TODO Fix download of GPG
+
+       print('Installing Redis')
+
+       print(os.popen('yum -y -q install redis').read())
+
+       print('Installing PostgreSQL')
+
+       print(os.popen('yum -y -q install postgresql-server').read())
+
+       print('Installing Memcached')
+
+       print(os.popen('yum -y -q install memcached').read())
+
+       print('Installing NGINX')
+   
+       print(os.popen('yum -y -q install nginx').read())
+
+       print('Installing AWX-RPM')
+
+       print(os.popen('yum -y -q install ansible-awx').read())
+
+       print('Initialising PostgreSQL')
+
+       print(os.popen('postgresql-setup initdb').read())
+
+       print('Starting PostgreSQL')
+
+       print(os.popen('systemctl start postgresql').read())
+
+       print('Creating AWX postgreSQL user and Database')
+
+       print(os.popen('su postgres -c "createuser -S awx" && su postgres -c "createdb -O awx awx"').read())
+
+       print('Installing pwgen')
+
+       print(os.popen('yum -y -q install pwgen').read())
+
+       print('Generating Secret key')
+
+       print(os.popen('pwgen 32 > /etc/tower/SECRET_KEY').read())
+
+       print('Initial database migration')
+
+       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+
+       print('Creating Admin user')
+
+       print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', 'password')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell
+').read())
+
+       print('Adding example data')
+
+       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data').read())
+
+       print('Registering AWX-RPM Instance in database')
+    
+       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)').read())
+
+       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)').read())
+
+       print('Installing NGINX Configuration')
+
+       print(os.popen('/bin/cp -f /usr/share/doc/ansible-awx/nginx.conf.example /etc/nginx/nginx.conf').read())
+
+       print('Configuring Redis')
+
+       with open('/etc/yum.repos.d/ansible-awx.repo','w') as f:
+         f.write('unixsocket /var/run/redis/redis.sock')
+         f.write('unixsocketperm 770')
+
+       print(os.popen('gpasswd -a awx redis').read())
+
+       print('Creating initial Ansible VENV')
+
+       print(os.popen('awx-create-venv').read())
+
+       print('Starting and enabling AWX-RPM')
+
+       print(os.popen('systemctl enable awx && systemctl start awx').read())
+
+       open(install_status_file, 'a').close()
+
+       print('''Congratulations, AWX-RPM is now installed, and hopefully running on http://%s.
+Login:
+  user: admin
+  password: password (remember to change)
+
+Please report any issues at: https://github.com/MrMEEE/awx-build/issues
+
+Have fun!!!''' % (platform.node()))
+
+       print()
 
      else:
 
        print("AWX-RPM is already installed and configured..")
+
+def query_yes_no(question, default="no"):
+
+    valid = {"yes": True, "y": True, "ye": True,
+             "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n').\n")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
