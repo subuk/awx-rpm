@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, getopt, os, datetime, rpm, urllib
+import sys, getopt, os, datetime, rpm, urllib, platform
 
 def helpscreen():
    print('''
@@ -12,6 +12,7 @@ Setup tool for AWX-RPM..
   -i, --install              Setup and configure AWX-RPM, standard installation, single server
   -d, --default-venv         Set default virtual environment, located in /var/lib/awx/venv/
   -l, --list-venvs           List available virtual environments
+  -u, --update               Update AWX-RPM to latest version
    ''')
 
 def main(argv):
@@ -21,7 +22,7 @@ def main(argv):
    repopath = "http://aptaobs01.aperta.lan:82"
 
    try:
-      opts, args = getopt.getopt(argv,"hid:l",["install","default-venv","list-venvs"])
+      opts, args = getopt.getopt(argv,"hiud:l",["install","update","default-venv","list-venvs"])
    except getopt.GetoptError:
       helpscreen()
       sys.exit(2)
@@ -35,6 +36,8 @@ def main(argv):
          listvenvs = 1
       elif opt in ("-i", "--install"):
          install = 1
+      elif opt in ("-u", "--update"):
+         update = 1
 
    try:
      defaultvenv
@@ -71,6 +74,63 @@ def main(argv):
            print("          %s" % (os.path.basename(venv)))
 
    try:
+     update
+   except:
+     update = 0
+
+   if update:
+     print("Checking for updates")     
+
+     os.popen('yum clean all')
+     res = os.popen('yum check-update ansible-awx')
+     result = res.read()
+     rc1 = res.close()
+     rc2 = os.WEXITSTATUS(rc1)
+
+     res1 = os.popen('rpm -aq ansible-awx')
+     oldpackageversion = res1.read()
+     
+     if rc2 == 100:
+       if query_yes_no("New update is available, do you want to update??"):
+         print("Updating...")
+
+         print("Unlocking locked packages")
+         with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+           for line in a_file:
+             stripped_line = line.strip()
+             os.popen('yum versionlock delete %s' % (stripped_line)).read()
+
+         os.popen('yum versionlock delete ansible-awx').read()
+         print("Updating AWX-RPM")
+         print(os.popen('yum -y install ansible-awx').read())
+
+         print("Re-locking packageversions")
+         os.popen('yum versionlock ansible-awx').read()
+         with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+           for line in a_file:
+             stripped_line = line.strip()
+             os.popen('yum versionlock %s' % (stripped_line)).read()
+
+         print("Doing database migrations")
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage makemigrations').read())
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+ 
+         print("Restarting AWX-RPM")
+         print(os.popen('systemctl restart awx').read())
+
+         res2 = os.popen('rpm -aq ansible-awx')
+         newpackageversion = res2.read()
+
+         print("Successfully upgraded from %s to %s.. Have fun.." % (oldpackageversion,newpackageversion))
+
+       else:
+         sys.exit(0)
+    
+     else:
+
+       print("No updates are current available...")   
+
+   try:
      install
    except:
      install = 0
@@ -87,8 +147,10 @@ Do you want to continue? '''):
        print('Setting up AWX-RPM')
      
        print('Configuring SELinux')
+
+       print(os.popen('yum -y -q install policycoreutils-python').read())
      
-       print(os.popen('yum -y install policycoreutils-python && semanage port -a -t http_port_t -p tcp 8050 && semanage port -a -t http_port_t -p tcp 8051 && semanage port -a -t http_port_t -p tcp 8052 && setsebool -P httpd_can_network_connect 1').read())
+       print(os.popen('semanage port -a -t http_port_t -p tcp 8050 && semanage port -a -t http_port_t -p tcp 8051 && semanage port -a -t http_port_t -p tcp 8052 && setsebool -P httpd_can_network_connect 1').read())
     
        print('Configuring Firewall (Disabling for now/TODO)')
 
@@ -149,7 +211,7 @@ module_hotfixes=True
 
        print('Creating AWX postgreSQL user and Database')
 
-       print(os.popen('su postgres -c "createuser -S awx" && su postgres -c "createdb -O awx awx"').read())
+       os.popen('su postgres -c "createuser -S awx" && su postgres -c "createdb -O awx awx"')
 
        print('Installing pwgen')
 
@@ -183,7 +245,7 @@ module_hotfixes=True
 
        print('Configuring Redis')
 
-       with open('/etc/yum.repos.d/ansible-awx.repo','w') as f:
+       with open('/etc/redis.conf','a') as f:
          f.write('unixsocket /var/run/redis/redis.sock')
          f.write('unixsocketperm 770')
 
@@ -195,7 +257,12 @@ module_hotfixes=True
 
        print('Locking package versions for AWX-RPM and dependencies')
 
-       os.popen('for i in `cat /usr/share/doc/ansible-awx/awx-locks.txt`;do yum versionlock $i;done')
+       with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+         for line in a_file:
+           stripped_line = line.strip()
+           os.popen('yum versionlock %s' % (stripped_line)).read()
+
+       os.popen('yum versionlock ansible-awx').read()
 
        print('Starting and enabling AWX-RPM')
 
@@ -234,6 +301,7 @@ def query_yes_no(question, default="no"):
         prompt = " [y/N] "
     else:
         raise ValueError("invalid default answer: '%s'" % default)
+
 
     while True:
         sys.stdout.write(question + prompt)

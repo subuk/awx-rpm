@@ -60,6 +60,7 @@ Requires: subversion
 Requires: pwgen
 Requires: supervisor
 Requires: virtualenv
+Requires: xmlsec1-openssl
 Requires: python3-django-rest-swagger
 Requires: python3-django-debug-toolbar
 
