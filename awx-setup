@@ -194,6 +194,10 @@ module_hotfixes=True
 
        print(os.popen('awx-create-venv').read())
 
+       print('Locking package versions for AWX-RPM and dependencies')
+
+       os.popen('for i in `cat /usr/share/doc/ansible-awx/awx-locks.txt`;do yum versionlock $i;done')
+
        print('Starting and enabling AWX-RPM')
 
        print(os.popen('systemctl enable awx && systemctl start awx').read())
@@ -206,6 +210,10 @@ Login:
   password: password (remember to change)
 
 Please report any issues at: https://github.com/MrMEEE/awx-build/issues
+
+awx-create-env can be used for creating virtual ansible python environments (VENVs)..
+
+awx-setup can be used for updating and managing VENVs..
 
 Have fun!!!''' % (platform.node()))
 
