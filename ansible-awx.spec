@@ -59,7 +59,13 @@ Requires: sshpass
 Requires: subversion
 Requires: pwgen
 Requires: supervisor
-Requires: virtualenv
+Requires: virtualenv	# awx-create-venv
+Reqiures: gcc	# awx-create-venv
+%if 0%{?el7}
+Requires: yum-plugin-versionlock
+%else
+Requires: python3-dnf-plugin-versionlock
+%endif
 Requires: python3-django-rest-swagger
 Requires: python3-django-debug-toolbar
 
