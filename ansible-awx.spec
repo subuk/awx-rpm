@@ -61,6 +61,12 @@ Requires: pwgen
 Requires: supervisor
 Requires: virtualenv
 Requires: xmlsec1-openssl
+Requires: gcc
+%if 0%{?el7}
+Requires: yum-plugin-versionlock
+%else
+Requires: python3-dnf-plugin-versionlock
+%endif
 Requires: python3-django-rest-swagger
 Requires: python3-django-debug-toolbar
 
