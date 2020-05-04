@@ -150,7 +150,7 @@ Do you want to continue? '''):
      
        print('Configuring SELinux')
 
-       if osversion == 7:
+       if int(osversion) == 7:
          print(os.popen('yum -y -q install policycoreutils-python').read())
        else:
          print(os.popen('yum -y -q install policycoreutils-python-utils').read())
