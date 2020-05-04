@@ -281,8 +281,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
        print('Configuring Redis')
 
        with open('/etc/redis.conf','a') as f:
-         f.write('unixsocket /var/run/redis/redis.sock')
-         f.write('unixsocketperm 770')
+         f.write('unixsocket /var/run/redis/redis.sock\n')
+         f.write('unixsocketperm 770\n')
 
        print(os.popen('gpasswd -a awx redis').read())
 
