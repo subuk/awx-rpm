@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, getopt, os, datetime, rpm, urllib.request, platform
+import sys, getopt, os, datetime, urllib.request, platform
 
 def helpscreen():
    print('''
