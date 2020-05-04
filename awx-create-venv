@@ -42,6 +42,12 @@ def main(argv):
          fulldeps = 1
 
    try:
+     fulldeps
+   except:
+     fulldeps = 1
+   
+         
+   try:
      pythonversion
    except:
      pythonversion = 3
