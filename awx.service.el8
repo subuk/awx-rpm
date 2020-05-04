@@ -1,6 +1,6 @@
 [Unit]
 Description=Application
-Requires=awx-cbreceiver.service awx-daphne.service awx-dispatcher.service awx-wsbroadcast.service awx-web.service nginx.service postgresql.service memcached.service redis.service
+Requires=awx-cbreceiver.service awx-daphne.service awx-dispatcher.service awx-wsbroadcast.service awx-web.service
 After=syslog.target network.target
 
 [Service]
