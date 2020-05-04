@@ -19,7 +19,7 @@ def main(argv):
 
    install_status_file = "/etc/tower/INSTALLED"
 
-   repopath = "http://aptaobs01.aperta.lan:82"
+   repopath = "https://rpm.miracle.dk"
 
    try:
       opts, args = getopt.getopt(argv,"hiud:l",["install","update","default-venv","list-venvs"])
@@ -174,12 +174,12 @@ Do you want to continue? '''):
 name=Ansible AWX
 baseurl=%s/AWX-RPM/CentOS_%s
 enabled=1
-gpgcheck=0
+gpgcheck=1
 module_hotfixes=True
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 ''' % (repopath,osversion))
-         #f.write('gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-%s' % (osversion)) # TODO Fix download of GPG
 
-       #urllib.urlretrieve('%s/AWX/RPM-GPG-KEY-EPEL-%s','/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-%s' % (repopath,osversion,osversion)) # TODO Fix download of GPG
+       urllib.urlretrieve('%s/AWX-RPM/RPM-GPG-KEY-AWX-RPM','/etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM' % (repopath))
 
        print('Installing Redis')
 
