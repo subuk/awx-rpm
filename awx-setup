@@ -143,7 +143,7 @@ def main(argv):
 Check https://awx.wiki for advanced install methods and more info..
 Do you want to continue? '''):
          sys.exit(0)
-
+       ostype = os.popen('cat /etc/redhat-release | awk '{ print $1 }'').read()
        osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read()
        
        print('Setting up AWX-RPM')
@@ -164,8 +164,13 @@ Do you want to continue? '''):
        print('Configure Repositories')
 
        print('Adding EPEL')
+        
+       print(os.popen('yum -y -q install epel-release').read()) # Fix RHEL
 
-       print(os.popen('yum -y -q install epel-release').read())
+       if ostype == "CentOS" and int(osversion) == 7:
+         print(os.popen('yum -y -q install centos-release-scl-rh').read())
+         
+       # Fix RHEL SCL
 
        print('Adding AWX-RPM Repo')
 
@@ -189,9 +194,12 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
        print(os.popen('yum -y -q install redis').read())
 
        print('Installing PostgreSQL')
-
-       print(os.popen('yum -y -q install postgresql-server').read())
-
+        
+       if int(osversion) == 7:
+         print(os.popen('yum -y -q install rh-postgresql10-postgresql-server').read())
+       else:
+         print(os.popen('yum -y -q install postgresql-server').read())
+ 
        print('Installing Memcached')
 
        print(os.popen('yum -y -q install memcached').read())
@@ -206,15 +214,21 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 
        print('Initialising PostgreSQL')
 
-       print(os.popen('postgresql-setup initdb').read())
-
+       if int(osversion) == 7:
+         print(os.popen('scl enable rh-postgresql10 "postgresql-setup initdb"').read())
+       else:
+         print(os.popen('postgresql-setup initdb').read())
+ 
        print('Starting PostgreSQL')
-
-       print(os.popen('systemctl start postgresql').read())
+       
+       if int(osversion) == 7:
+         print(os.popen('systemctl start rh-postgresql10-postgresql').read())
+       else:
+         print(os.popen('systemctl start postgresql').read())
 
        print('Creating AWX postgreSQL user and Database')
 
-       os.popen('su postgres -c "createuser -S awx" && su postgres -c "createdb -O awx awx"')
+       os.popen('scl enable rh-postgresql10 "su postgres -c \"createuser -S awx\" && su postgres -c \"createdb -O awx awx\""')
 
        print('Installing pwgen')
 
@@ -225,22 +239,33 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
        print(os.popen('pwgen 32 > /etc/tower/SECRET_KEY').read())
 
        print('Initial database migration')
-
-       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+       
+       if int(osversion) == 7:
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage migrate"').read())
+       else:
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
 
        print('Creating Admin user')
+       
+       if int(osversion) == 7:
+         print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage shell"').read())
+       else:
+         print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell').read())
 
-       print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell').read())
+       print('Adding example data and registering AWX-RPM Instance in database')
+       if int(osversion) == 7:
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data"').read())
 
-       print('Adding example data')
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)"').read())
 
-       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data').read())
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)"').read())
+   
+       else
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data').read())
 
-       print('Registering AWX-RPM Instance in database')
-    
-       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)').read())
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)').read())
 
-       print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)').read())
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)').read())
 
        print('Installing NGINX Configuration')
 
