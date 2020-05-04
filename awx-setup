@@ -299,10 +299,18 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 
        os.popen('yum versionlock ansible-awx').read()
 
-       print('Starting and enabling AWX-RPM')
-
+       print('Starting and enabling AWX-RPM Services')
+       
        print(os.popen('systemctl enable awx && systemctl start awx').read())
-
+       print(os.popen('systemctl enable nginx && systemctl start nginx').read())
+       print(os.popen('systemctl enable memcached && systemctl start memcached').read())
+       print(os.popen('systemctl enable redis && systemctl start redis').read())
+       
+       if int(osversion) == 7:
+         print(os.popen('systemctl enable rh-postgresql10-postgresql && systemctl start rh-postgresql10-postgresql').read())
+       else:
+         print(os.popen('systemctl enable postgresql && systemctl start postgresql').read())
+               
        open(install_status_file, 'a').close()
 
        print('''Congratulations, AWX-RPM is now installed, and hopefully running on http://%s.
