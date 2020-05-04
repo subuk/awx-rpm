@@ -143,8 +143,8 @@ def main(argv):
 Check https://awx.wiki for advanced install methods and more info..
 Do you want to continue? '''):
          sys.exit(0)
-       ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read()
-       osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read()
+       ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read().rstrip()
+       osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read().rstrip()
        
        print('Setting up AWX-RPM')
      
