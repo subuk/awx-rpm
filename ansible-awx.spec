@@ -59,13 +59,14 @@ Requires: sshpass
 Requires: subversion
 Requires: pwgen
 Requires: supervisor
-Requires: virtualenv
 Requires: xmlsec1-openssl
 Requires: gcc
 %if 0%{?el7}
 Requires: yum-plugin-versionlock
+Requires: python3-virtualenv
 %else
 Requires: python3-dnf-plugin-versionlock
+Requires: virtualenv
 %endif
 Requires: python3-django-rest-swagger
 Requires: python3-django-debug-toolbar
