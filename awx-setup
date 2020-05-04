@@ -143,7 +143,7 @@ def main(argv):
 Check https://awx.wiki for advanced install methods and more info..
 Do you want to continue? '''):
          sys.exit(0)
-       ostype = os.popen('cat /etc/redhat-release | awk '{ print $1 }'').read()
+       ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read()
        osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read()
        
        print('Setting up AWX-RPM')
@@ -260,7 +260,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 
          print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)"').read())
    
-       else
+       else:
          print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data').read())
 
          print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)').read())
