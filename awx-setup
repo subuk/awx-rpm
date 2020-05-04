@@ -235,7 +235,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 
        print('Creating AWX postgreSQL user and Database')
 
-       os.popen('scl enable rh-postgresql10 "su postgres -c \"createuser -S awx\" && su postgres -c \"createdb -O awx awx\""')
+       os.popen('sudo -u postgres scl enable rh-postgresql10 "createuser -S awx && createdb -O awx awx"')
 
        print('Installing pwgen')
 
