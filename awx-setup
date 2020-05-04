@@ -93,6 +93,9 @@ def main(argv):
      if rc2 == 100:
        if query_yes_no("New update is available, do you want to update??"):
          print("Updating...")
+         
+         ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read().rstrip()
+         osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read().rstrip()
 
          print("Unlocking locked packages")
          with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
@@ -112,8 +115,12 @@ def main(argv):
              os.popen('yum versionlock %s' % (stripped_line)).read()
 
          print("Doing database migrations")
-         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage makemigrations').read())
-         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+         if int(osversion) == 7:
+           print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage makemigrations"').read())
+           print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage migrate"').read())
+         else:
+           print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage makemigrations').read())
+           print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
  
          print("Restarting AWX-RPM")
          print(os.popen('systemctl restart awx').read())
