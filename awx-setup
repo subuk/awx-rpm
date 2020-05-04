@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, getopt, os, datetime, rpm, urllib, platform
+import sys, getopt, os, datetime, rpm, urllib.request, platform
 
 def helpscreen():
    print('''
@@ -182,7 +182,7 @@ module_hotfixes=True
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 ''' % (repopath,osversion))
 
-       urllib.urlretrieve('%s/AWX-RPM/RPM-GPG-KEY-AWX-RPM','/etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM' % (repopath))
+       urllib.request.urlretrieve('%s/RPM-GPG-KEY-AWX-RPM' % (repopath),'/etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM')
 
        print('Installing Redis')
 
