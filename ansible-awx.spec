@@ -66,6 +66,7 @@ Requires: yum-plugin-versionlock
 Requires: python3-virtualenv
 %else
 Requires: python3-dnf-plugin-versionlock
+Requires: python36-rpm
 Requires: virtualenv
 %endif
 Requires: python3-django-rest-swagger
