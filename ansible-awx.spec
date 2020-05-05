@@ -64,9 +64,9 @@ Requires: gcc
 %if 0%{?el7}
 Requires: yum-plugin-versionlock
 Requires: python3-virtualenv
+Requires: python36-rpm
 %else
 Requires: python3-dnf-plugin-versionlock
-Requires: python36-rpm
 Requires: virtualenv
 %endif
 Requires: python3-django-rest-swagger
