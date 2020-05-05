@@ -249,7 +249,7 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/python3.6/site-packages/usr
 /usr/bin/failure-event-handler
 /usr/bin/awx-python
 /var/lib/awx/rsyslog
-/usr/bin/awx-setup
+%attr(0755, root, root) /usr/bin/awx-setup
 
 
 %attr(0644, root, root) %{_unitdir}/awx-cbreceiver.service
