@@ -288,7 +288,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
 
        print('Creating initial Ansible VENV')
 
-       print(os.popen('awx-create-venv').read())
+       print(os.popen('awx-create-venv -f').read())
 
        print('Locking package versions for AWX-RPM and dependencies')
 

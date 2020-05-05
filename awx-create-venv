@@ -44,7 +44,7 @@ def main(argv):
    try:
      fulldeps
    except:
-     fulldeps = 1
+     fulldeps = 0
    
          
    try:
