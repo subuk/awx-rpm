@@ -92,7 +92,7 @@ VENV_BASE="/var/lib/awx/venv" make sdist
 %install
 # Setup build environment
 mkdir -p $RPM_BUILD_ROOT/usr/share/doc/ansible-awx
-cat requirements/requirements_ansible.txt |sed 's/#.*//g' |grep -v setuptools | grep -v pip | sed '/^ansible=/d' | sed 's/=.*//g' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/ansible-core-reqs.txt
+cat requirements/requirements_ansible.txt |sed 's/#.*//g' |grep -v enum34 |grep -v setuptools | grep -v pip | sed '/^ansible=/d' | sed 's/=.*//g' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/ansible-core-reqs.txt
 cat requirements/requirements.txt | sed 's/#.*//g' | grep -v pip |grep -v setuptools | sed 's/=.*//g' | sed 's/\[.*//g' | sed '/^$/d' |sed 's/^/python3-/' > $RPM_BUILD_ROOT/usr/share/doc/ansible-awx/awx-locks.txt
 
 # Special Package Names
