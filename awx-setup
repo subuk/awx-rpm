@@ -310,6 +310,9 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
          print(os.popen('systemctl enable rh-postgresql10-postgresql && systemctl start rh-postgresql10-postgresql').read())
        else:
          print(os.popen('systemctl enable postgresql && systemctl start postgresql').read())
+         
+       if int(osversion) == 7:
+         os.symlink("/usr/bin/virtualenv-3", "/usr/bin/virtualenv")
                
        open(install_status_file, 'a').close()
 
