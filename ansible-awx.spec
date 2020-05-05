@@ -61,6 +61,8 @@ Requires: pwgen
 Requires: supervisor
 Requires: xmlsec1-openssl
 Requires: gcc
+Requires: libcurl-devel
+Requires: krb5-devel
 %if 0%{?el7}
 Requires: yum-plugin-versionlock
 Requires: python3-virtualenv
