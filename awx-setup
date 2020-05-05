@@ -81,16 +81,17 @@ def main(argv):
    if update:
      print("Checking for updates")     
 
+     os.popen('yum versionlock delete ansible-awx').read()
+
      os.popen('yum clean all')
      res = os.popen('yum check-update ansible-awx')
      result = res.read()
      rc1 = res.close()
-     rc2 = os.WEXITSTATUS(rc1)
 
      res1 = os.popen('rpm -aq ansible-awx')
      oldpackageversion = res1.read()
      
-     if rc2 == 100:
+     if rc1 == 25600:
        if query_yes_no("New update is available, do you want to update??"):
          print("Updating...")
          
@@ -114,6 +115,8 @@ def main(argv):
              stripped_line = line.strip()
              os.popen('yum versionlock %s' % (stripped_line)).read()
 
+         os.popen('yum versionlock ansible-awx').read()
+
          print("Doing database migrations")
          if int(osversion) == 7:
            print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage makemigrations"').read())
@@ -131,11 +134,13 @@ def main(argv):
          print("Successfully upgraded from %s to %s.. Have fun.." % (oldpackageversion,newpackageversion))
 
        else:
+         os.popen('yum versionlock ansible-awx').read()
          sys.exit(0)
     
      else:
-
-       print("No updates are current available...")   
+       os.popen('yum versionlock ansible-awx').read()
+       print("No updates are current available...")  
+       sys.exit(0) 
 
    try:
      install
