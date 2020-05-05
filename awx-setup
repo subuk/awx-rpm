@@ -239,9 +239,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
          print(os.popen('systemctl start postgresql').read())
 
        print('Creating AWX postgreSQL user and Database')
-
-       os.popen('sudo -u postgres scl enable rh-postgresql10 "createuser -S awx && createdb -O awx awx"')
-
+       
+       if int(osversion) == 7:
+         print(os.popen('sudo -u postgres scl enable rh-postgresql10 "createuser -S awx && createdb -O awx awx"').read())
+       else:
+         print(os.popen('sudo -u postgres createuser -S awx').read())
+         print(os.popen('sudo -u postgres createdb -O awx awx').read())
+         
        print('Installing pwgen')
 
        print(os.popen('yum -y -q install pwgen').read())
