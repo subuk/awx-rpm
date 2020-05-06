@@ -106,7 +106,7 @@ def main(argv):
 
          os.popen('yum versionlock delete ansible-awx').read()
          print("Updating AWX-RPM")
-         print(os.popen('yum -y install ansible-awx').read())
+         print(os.popen('yum -y update').read())
 
          print("Re-locking packageversions")
          os.popen('yum versionlock ansible-awx').read()
