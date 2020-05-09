@@ -8,9 +8,6 @@ awx-create-venv [-options] venvname
 
 Create a Virtual Enviroment for use with AWX-RPM, containing Ansible
 
-Note: GCC is needed to setup the Virtual Environments, install gcc with "yum -y install gcc ", if it's not installed..
-Also: The packages: "rh-python36-python-pip python2-pip rh-python36-python-virtualenv python-virtualenv" are needed
-
  options:
   -p, --pythonversion        pythonversion to use (2 or 3), defaults to 3
   -a, --ansibleversion       ansible version to install in venv, defaults to latest
@@ -101,13 +98,18 @@ Using Python {pythonversion}
 
 Installing Ansible {ansibleversion}
    '''.format(venvpath=venvpath,venvname=venvname,pythonversion=pythonversion,ansibleversion=ansibleversion))
-
+   
+   if os.path.isfile("/usr/bin/virtualenv"):
+      virtualenvexe = "virtualenv"
+   else:
+      virtualenvexe = "virtualenv-3"
+   
    if int(pythonversion) == 2:
-     print(os.popen('virtualenv %s' % (venvfullpath)).read())
+     print(os.popen('%s %s' % (virtualenvexe,venvfullpath)).read())
      print(os.popen('%s/bin/pip install python-memcached psutil' % (venvfullpath)).read())
      print(os.popen('%s/bin/pip install -U \"ansible == %s\"' % (venvfullpath,ansibleversion)).read())
    else:
-     print(os.popen('virtualenv %s' % (venvfullpath)).read())
+     print(os.popen('%s %s' % (virtualenvexe,venvfullpath)).read())
      print(os.popen('%s/bin/pip3 install python-memcached psutil' % (venvfullpath)).read())
      print(os.popen('%s/bin/pip3 install -U "ansible == %s"' % (venvfullpath,ansibleversion)).read())
 
