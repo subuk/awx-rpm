@@ -184,7 +184,7 @@ Do you want to continue? '''):
        else:
          if int(osversion) == 7:
            print(os.popen('yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm').read())
-           print(os.popen('yum -y -q http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-scl-rh-2-3.el7.centos.noarch.rpm').read())
+           print(os.popen('yum -y -q install http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-scl-rh-2-3.el7.centos.noarch.rpm').read())
          else:
            print(os.popen('yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm').read())
          
