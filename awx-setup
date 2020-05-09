@@ -181,7 +181,6 @@ Do you want to continue? '''):
          print(os.popen('yum -y -q install epel-release').read()) # Fix RHEL
          if int(osversion) == 7: 
            print(os.popen('yum -y -q install centos-release-scl-rh').read())
-         else:
        else:
          if int(osversion) == 7:
            print(os.popen('yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm').read())
