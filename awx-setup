@@ -177,10 +177,17 @@ Do you want to continue? '''):
 
        print('Adding EPEL')
         
-       print(os.popen('yum -y -q install epel-release').read()) # Fix RHEL
-
-       if ostype == "CentOS" and int(osversion) == 7:
-         print(os.popen('yum -y -q install centos-release-scl-rh').read())
+       if ostype == "CentOS":
+         print(os.popen('yum -y -q install epel-release').read()) # Fix RHEL
+         if int(osversion) == 7: 
+           print(os.popen('yum -y -q install centos-release-scl-rh').read())
+         else:
+       else:
+         if int(osversion) == 7:
+           print(os.popen('yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm').read())
+           print(os.popen('http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-scl-rh-2-3.el7.centos.noarch.rpm').read())
+         else:
+           print(os.popen('yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm').read())
          
        # Fix RHEL SCL
 
