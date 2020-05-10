@@ -193,7 +193,7 @@ Do you want to continue? '''):
          if int(osversion) == 7:
            print(os.popen('subscription-manager repos --enable rhel-7-server-optional-rpms').read())
          else:
-           print('Detected RHEL8: TODO')
+           print(os.popen('subscription-manager repos --enable  rhel-8-for-x86_64-appstream-rpms').read())
 
        print('Adding AWX-RPM Repo')
 
