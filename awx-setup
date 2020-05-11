@@ -192,7 +192,6 @@ Do you want to continue? '''):
          if int(osversion) == 7:
            print(os.popen('subscription-manager repos --enable rhel-7-server-optional-rpms').read())
            print(os.popen('subscription-manager repos --enable rhel-server-rhscl-7-rpms').read())
-           rhel-server-rhscl-7-rpms
          else:
            print(os.popen('subscription-manager repos --enable  rhel-8-for-x86_64-appstream-rpms').read())
 
