@@ -1,0 +1,107 @@
+#!/usr/bin/python3
+
+import sys, getopt, os, datetime, rpm
+
+def helpscreen():
+   print('''
+awx-create-venv [-options] venvname
+
+Create a Virtual Enviroment for use with AWX-RPM, containing Ansible
+
+Note: GCC is needed to setup the Virtual Environments, install gcc with "yum -y install gcc ", if it's not installed..
+Also: The packages: "rh-python36-python-pip python2-pip rh-python36-python-virtualenv python-virtualenv" are needed
+
+ options:
+  -p, --pythonversion        pythonversion to use (2 or 3), defaults to 3
+  -a, --ansibleversion       ansible version to install in venv, defaults to latest
+  -n, --venvname             name of venv, defaults to "{pythonversion}-{ansibleversion}-{date}"
+  -e, --venvpath             path where the venv will be created, defaults to /var/lib/awx/venv/
+   ''')
+
+def main(argv):
+
+   try:
+      opts, args = getopt.getopt(argv,"hp:e:a:n:",["pythonversion","venvpath","ansibleversion","venvname"])
+   except getopt.GetoptError:
+      helpscreen()
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h' or opt == '--help':
+         helpscreen()
+         sys.exit()
+      elif opt in ("-p", "--pythonversion"):
+         pythonversion = arg
+      elif opt in ("-a", "--ansibleversion"):
+         ansibleversion = arg
+      elif opt in ("-n", "--venvname"):
+         venvname = arg
+      elif opt in ("-e", "--venvpath"):
+         venvpath = arg
+
+   try:
+     pythonversion
+   except:
+     pythonversion = 3
+   else:
+     if int(pythonversion) not in (2,3):
+       print(pythonversion,'is an invalid python version, please select 2 or 3')
+       sys.exit(3)
+
+   try:
+     ansibleversion
+   except:
+     if int(pythonversion) == 2:
+       ansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
+     else:
+       ansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
+   else:
+     if int(pythonversion) == 2:
+       checkansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
+     else:
+       checkansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
+     if checkansibleversion == "":
+       print(ansibleversion,'is an invalid ansible version')
+       sys.exit(3)   
+
+   try:
+     venvpath
+   except:
+     venvpath = "/var/lib/awx/venv"
+   else:
+     if not os.path.isdir(venvpath):
+       print('The venv path:',venvpath,'doesn\'t exist')
+       sys.exit(3)
+
+   try:
+     venvname
+   except:
+     now = datetime.datetime.now()
+     venvname = 'python%s-ansible%s-%s%s%s' % (pythonversion,ansibleversion,now.day,now.month,now.year)
+
+   venvfullpath = '%s/%s' % (venvpath,venvname)
+
+   if os.path.isdir(venvfullpath):
+     print('The venv:',venvfullpath,'does already exist')
+     sys.exit(3)
+
+   print('''
+Create Virtual Enviroment at:
+  {venvpath}/{venvname}
+
+Using Python {pythonversion}
+
+Installing Ansible {ansibleversion}
+   '''.format(venvpath=venvpath,venvname=venvname,pythonversion=pythonversion,ansibleversion=ansibleversion))
+
+   if int(pythonversion) == 2:
+     print os.popen('virtualenv %s' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip install python-memcached psutil' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip install -U \"ansible == %s\"' % (venvfullpath,ansibleversion)).read()
+   else:
+     print os.popen('virtualenv %s' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip3 install python-memcached psutil' % (venvfullpath)).read()
+     print os.popen('%s/bin/pip3 install -U "ansible == %s"' % (venvfullpath,ansibleversion)).read()
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
+

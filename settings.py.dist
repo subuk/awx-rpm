@@ -4,7 +4,7 @@ import platform
 
 def get_secret():
     if os.path.exists("/etc/tower/SECRET_KEY"):
-        return file('/etc/tower/SECRET_KEY', 'rb').read().strip()
+        return open('/etc/tower/SECRET_KEY', 'rb').read().strip()
     return os.getenv("SECRET_KEY", "privateawx")
 
 HOSTNAME = platform.node()
@@ -25,10 +25,11 @@ INTERNAL_API_URL = 'http://127.0.0.1:8052'
 
 AWX_TASK_ENV['HOME'] = '/var/lib/awx'
 
-# Container environments don't like chroots
-AWX_PROOT_ENABLED = False
+AWX_PROOT_ENABLED = True
 
-ANSIBLE_VENV_PATH = '/opt/awx/embedded'
+ANSIBLE_VENV_PATH = '/opt/rh/rh-python36/root/'
+BASE_VENV_PATH = '/opt/rh/rh-python36/'
+CUSTOM_VENV_PATHS = ['/var/lib/awx/venv']
 
 CLUSTER_HOST_ID = HOSTNAME
 SYSTEM_UUID = '00000000-0000-0000-0000-000000000000'
@@ -56,7 +57,7 @@ EMAIL_USE_TLS = False
 
 LOGGING['handlers']['console'] = {
     '()': 'logging.StreamHandler',
-    'level': 'DEBUG',
+    'level': 'INFO',
     'formatter': 'simple',
 }
 
@@ -91,23 +92,14 @@ DATABASES = {
     }
 }
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
-
-# asgi_rabbitmq
-#CHANNEL_LAYERS = {
-#    'default': {'BACKEND': 'asgi_rabbitmq.RabbitmqChannelLayer',
-#                'ROUTING': 'awx.main.routing.channel_routing',
-#                'CONFIG': {'url': CELERY_BROKER_URL}}
-#}
+BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
 
 # asgi_amqp
 CHANNEL_LAYERS = {
     'default': {'BACKEND': 'asgi_amqp.AMQPChannelLayer',
                 'ROUTING': 'awx.main.routing.channel_routing',
-                'CONFIG': {'url': CELERY_BROKER_URL}}
+                'CONFIG': {'url': BROKER_URL}}
 }
-
-
 
 CACHES = {
     'default': {

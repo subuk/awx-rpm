@@ -1,0 +1,385 @@
+#!/usr/bin/python3
+
+import sys, getopt, os, datetime, urllib.request, platform
+
+def helpscreen():
+   print('''
+awx-setup [-options]
+
+Setup tool for AWX-RPM..
+
+ options:
+  -i, --install              Setup and configure AWX-RPM, standard installation, single server
+  -d, --default-venv         Set default virtual environment, located in /var/lib/awx/venv/
+  -l, --list-venvs           List available virtual environments
+  -u, --update               Update AWX-RPM to latest version
+   ''')
+
+def main(argv):
+
+   install_status_file = "/etc/tower/INSTALLED"
+
+   repopath = "https://rpm.miracle.dk"
+
+   try:
+      opts, args = getopt.getopt(argv,"hiud:l",["install","update","default-venv","list-venvs"])
+   except getopt.GetoptError:
+      helpscreen()
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h' or opt == '--help':
+         helpscreen()
+         sys.exit()
+      elif opt in ("-d", "--default-venv"):
+         defaultvenv = arg
+      elif opt in ("-l", "--list-venvs"):
+         listvenvs = 1
+      elif opt in ("-i", "--install"):
+         install = 1
+      elif opt in ("-u", "--update"):
+         update = 1
+
+   try:
+     defaultvenv
+   except:
+     defaultvenv = 0
+   else:
+     if not defaultvenv == 0:
+       if os.path.isdir("/var/lib/awx/venv/%s" % (defaultvenv)):
+         while True:
+           try:
+             os.symlink("/var/lib/awx/venv/%s" % (defaultvenv), "/var/lib/awx/venv/ansible")
+             break
+           except FileExistsError:
+             os.remove("/var/lib/awx/venv/ansible")
+         print("Changed default VENV to: %s" % (defaultvenv))
+       else:
+         print("There doesn't seem to exist a folder at: /var/lib/awx/venv/%s" % (defaultvenv))
+   
+   try:
+     listvenvs
+   except:
+     listvenvs = 0
+
+   if listvenvs:
+     if os.path.islink("/var/lib/awx/venv/ansible"):      
+       defaultvenv = os.readlink("/var/lib/awx/venv/ansible")
+     subfolders = [ f.path for f in os.scandir("/var/lib/awx/venv") if f.is_dir() ]
+     print("default   VENV")
+     for venv in subfolders:
+       if os.path.basename(venv) != "ansible":
+         if venv == defaultvenv:
+           print("   *      %s" % (os.path.basename(venv)))
+         else:
+           print("          %s" % (os.path.basename(venv)))
+
+   try:
+     update
+   except:
+     update = 0
+
+   if update:
+     print("Checking for updates")     
+
+     os.popen('yum versionlock delete ansible-awx').read()
+
+     os.popen('yum clean all')
+     res = os.popen('yum check-update ansible-awx')
+     result = res.read()
+     rc1 = res.close()
+
+     res1 = os.popen('rpm -aq ansible-awx')
+     oldpackageversion = res1.read()
+     
+     if rc1 == 25600:
+       if query_yes_no("New update is available, do you want to update??"):
+         print("Updating...")
+         
+         ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read().rstrip()
+         osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read().rstrip()
+
+         print("Unlocking locked packages")
+         with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+           for line in a_file:
+             stripped_line = line.strip()
+             os.popen('yum versionlock delete %s' % (stripped_line)).read()
+
+         os.popen('yum versionlock delete ansible-awx').read()
+         print("Updating AWX-RPM")
+         print(os.popen('yum -y --allowerasing update').read())
+         print(os.popen('yum -y install ansible-awx').read())
+
+         print("Re-locking packageversions")
+         os.popen('yum versionlock ansible-awx').read()
+         with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+           for line in a_file:
+             stripped_line = line.strip()
+             os.popen('yum versionlock %s' % (stripped_line)).read()
+
+         os.popen('yum versionlock ansible-awx').read()
+
+         print("Doing database migrations")
+         if int(osversion) == 7:
+           print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage makemigrations"').read())
+           print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage migrate"').read())
+         else:
+           print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage makemigrations').read())
+           print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+ 
+         print("Restarting AWX-RPM")
+         print(os.popen('systemctl restart awx').read())
+
+         res2 = os.popen('rpm -aq ansible-awx')
+         newpackageversion = res2.read()
+
+         print("Successfully upgraded from %s to %s.. Have fun.." % (oldpackageversion,newpackageversion))
+
+       else:
+         os.popen('yum versionlock ansible-awx').read()
+         sys.exit(0)
+    
+     else:
+       os.popen('yum versionlock ansible-awx').read()
+       print("No updates are current available...")  
+       sys.exit(0) 
+
+   try:
+     install
+   except:
+     install = 0
+
+   if install:
+
+     if not os.path.isfile(install_status_file):
+
+       if not query_yes_no('''This is going to install AWX-RPM and all dependencies.. This installer is meant to be easy, not customizable.. 
+Check https://awx.wiki for advanced install methods and more info..
+Do you want to continue? '''):
+         sys.exit(0)
+       ostype = os.popen('cat /etc/redhat-release | awk \'{ print $1 }\'').read().rstrip()
+       osversion = os.popen('cat /etc/os-release |grep "^VERSION=" | cut -f2 -d\\" | cut -c 1-1').read().rstrip()
+       
+       print('Setting up AWX-RPM')
+     
+       print('Configuring SELinux')
+
+       if int(osversion) == 7:
+         print(os.popen('yum -y -q install policycoreutils-python').read())
+       else:
+         print(os.popen('yum -y -q install policycoreutils-python-utils').read())
+     
+       print(os.popen('semanage port -a -t http_port_t -p tcp 8050 && semanage port -a -t http_port_t -p tcp 8051 && semanage port -a -t http_port_t -p tcp 8052 && setsebool -P httpd_can_network_connect 1').read())
+    
+       print('Configuring Firewall (Disabling for now/TODO)')
+
+       print(os.popen('systemctl stop firewalld && systemctl disable firewalld').read())
+
+       print('Configure Repositories')
+
+       print('Adding EPEL')
+        
+       if ostype == "CentOS":
+         print(os.popen('yum -y -q install epel-release').read()) # Fix RHEL
+         if int(osversion) == 7: 
+           print(os.popen('yum -y -q install centos-release-scl-rh').read())
+       else:
+         if int(osversion) == 7:
+           print(os.popen('yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm').read())
+         else:
+           print(os.popen('yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm').read())
+       
+       if not ostype == "CentOS":
+         print('Enabling RHEL Repos')
+         if int(osversion) == 7:
+           print(os.popen('subscription-manager repos --enable rhel-7-server-optional-rpms').read())
+           print(os.popen('subscription-manager repos --enable rhel-server-rhscl-7-rpms').read())
+         else:
+           print(os.popen('subscription-manager repos --enable  rhel-8-for-x86_64-appstream-rpms').read())
+
+       print('Adding AWX-RPM Repo')
+
+       if os.path.isfile('/etc/yum.repos.d/ansible-awx.repo'):
+         os.rename(r'/etc/yum.repos.d/ansible-awx.repo',r'/etc/yum.repos.d/ansible-awx.repo.bak')
+
+       with open('/etc/yum.repos.d/ansible-awx.repo','w') as f:
+         f.write('''[ansible-awx]
+name=Ansible AWX
+baseurl=%s/AWX-RPM/CentOS_%s
+enabled=1
+gpgcheck=1
+module_hotfixes=True
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM
+''' % (repopath,osversion))
+
+       urllib.request.urlretrieve('%s/RPM-GPG-KEY-AWX-RPM' % (repopath),'/etc/pki/rpm-gpg/RPM-GPG-KEY-AWX-RPM')
+
+       print('Installing Redis')
+
+       print(os.popen('yum -y -q install redis').read())
+
+       print('Installing PostgreSQL')
+        
+       if int(osversion) == 7:
+         print(os.popen('yum -y -q install rh-postgresql10-postgresql-server').read())
+       else:
+         print(os.popen('yum -y -q install postgresql-server').read())
+ 
+       print('Installing Memcached')
+
+       print(os.popen('yum -y -q install memcached').read())
+
+       print('Installing NGINX')
+   
+       print(os.popen('yum -y -q install nginx').read())
+
+       print('Installing AWX-RPM')
+
+       print(os.popen('yum -y -q install ansible-awx').read())
+
+       print('Initialising PostgreSQL')
+
+       if int(osversion) == 7:
+         print(os.popen('scl enable rh-postgresql10 "postgresql-setup initdb"').read())
+       else:
+         print(os.popen('postgresql-setup initdb').read())
+ 
+       print('Starting PostgreSQL')
+       
+       if int(osversion) == 7:
+         print(os.popen('systemctl start rh-postgresql10-postgresql').read())
+       else:
+         print(os.popen('systemctl start postgresql').read())
+
+       print('Creating AWX postgreSQL user and Database')
+       
+       if int(osversion) == 7:
+         print(os.popen('sudo -u postgres scl enable rh-postgresql10 "createuser -S awx && createdb -O awx awx"').read())
+       else:
+         print(os.popen('sudo -u postgres createuser -S awx').read())
+         print(os.popen('sudo -u postgres createdb -O awx awx').read())
+         
+       print('Installing pwgen')
+
+       print(os.popen('yum -y -q install pwgen').read())
+
+       print('Generating Secret key')
+
+       print(os.popen('pwgen 32 > /etc/tower/SECRET_KEY').read())
+
+       print('Initial database migration')
+       
+       if int(osversion) == 7:
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage migrate"').read())
+       else:
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage migrate').read())
+
+       print('Creating Admin user')
+       
+       if int(osversion) == 7:
+         print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage shell"').read())
+       else:
+         print(os.popen('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'admin\', \'root@localhost\', \'password\')" | sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage shell').read())
+
+       print('Adding example data and registering AWX-RPM Instance in database')
+       if int(osversion) == 7:
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data"').read())
+
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)"').read())
+
+         print(os.popen('sudo -u awx scl enable rh-postgresql10 "GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)"').read())
+   
+       else:
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage create_preload_data').read())
+
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage provision_instance --hostname=$(hostname)').read())
+
+         print(os.popen('sudo -u awx GIT_PYTHON_REFRESH=quiet awx-manage register_queue --queuename=tower --hostnames=$(hostname)').read())
+
+       print('Installing NGINX Configuration')
+
+       print(os.popen('/bin/cp -f /usr/share/doc/ansible-awx/nginx.conf.example /etc/nginx/nginx.conf').read())
+
+       print('Configuring Redis')
+
+       with open('/etc/redis.conf','a') as f:
+         f.write('unixsocket /var/run/redis/redis.sock\n')
+         f.write('unixsocketperm 770\n')
+
+       print(os.popen('gpasswd -a awx redis').read())
+
+       print('Creating initial Ansible VENV')
+
+       print(os.popen('awx-create-venv -f').read())
+
+       print('Locking package versions for AWX-RPM and dependencies')
+
+       with open("/usr/share/doc/ansible-awx/awx-locks.txt", "r") as a_file:
+         for line in a_file:
+           stripped_line = line.strip()
+           os.popen('yum versionlock %s' % (stripped_line)).read()
+
+       os.popen('yum versionlock ansible-awx').read()
+
+       print('Starting and enabling AWX-RPM Services')
+       
+       print(os.popen('systemctl enable awx && systemctl start awx').read())
+       print(os.popen('systemctl enable nginx && systemctl start nginx').read())
+       print(os.popen('systemctl enable memcached && systemctl start memcached').read())
+       print(os.popen('systemctl enable redis && systemctl start redis').read())
+       
+       if int(osversion) == 7:
+         print(os.popen('systemctl enable rh-postgresql10-postgresql && systemctl start rh-postgresql10-postgresql').read())
+       else:
+         print(os.popen('systemctl enable postgresql && systemctl start postgresql').read())
+         
+       if int(osversion) == 7:
+         os.symlink("/usr/bin/virtualenv-3", "/usr/bin/virtualenv")
+               
+       open(install_status_file, 'a').close()
+
+       print('''Congratulations, AWX-RPM is now installed, and hopefully running on http://%s.
+Login:
+  user: admin
+  password: password (remember to change)
+
+Please report any issues at: https://github.com/MrMEEE/awx-build/issues
+
+awx-create-env can be used for creating virtual ansible python environments (VENVs)..
+
+awx-setup can be used for updating and managing VENVs..
+
+Have fun!!!''' % (platform.node()))
+
+       print()
+
+     else:
+
+       print("AWX-RPM is already installed and configured..")
+
+def query_yes_no(question, default="no"):
+
+    valid = {"yes": True, "y": True, "ye": True,
+             "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n').\n")
+
+if __name__ == "__main__":
+   main(sys.argv[1:])

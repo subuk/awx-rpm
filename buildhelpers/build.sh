@@ -2,34 +2,20 @@
 set -e
 set -x
 
-SPECFILE="/source/$1"
+SPECFILE="/root/rpmbuild/SOURCES/$1"
+#cat $SPECFILE
 
-yum install -y rpmdevtools yum-utils fakeroot
+yum install -y centos-release-scl wget
 
-useradd -s /bin/bash builder || true
-chown builder. /cache -R
+yum -y update
 
-pushd /source
-	spectool -g $SPECFILE
-	yum-builddep -y $SPECFILE
-popd
+wget -O /etc/yum.repos.d/ansible-awx.repo https://copr.fedorainfracloud.org/coprs/mrmeee/ansible-awx/repo/epel-7/mrmeee-ansible-awx-epel-7.repo
 
-su builder -c /bin/bash <<EOF
-set -e
-set -x
+yum -y install scl-utils-build libcurl-devel rh-python36-pycparser rh-python36-pbr rh-python36-cffi python3-rpm-macros python-rpm-macros rh-python36-build rh-python36-setuptools_scm rh-python36-python rh-python36-python-devel gcc make libffi-devel openssl-devel libxml2-devel libxslt-devel gcc-c++ rh-postgresql10-postgresql-devel openldap-devel xmlsec1-devel libxml2-devel xmlsec1-openssl-devel libtool-ltdl-devel rh-python36-python-sphinx rh-python36-six sqlite
 
-mkdir -p /cache/builder-cache-dir
-ln -sf /cache/builder-cache-dir ~/.cache
+yum-builddep -y $SPECFILE
 
-cat > ~/.rpmmacros <<EOT
-%_topdir /tmp/buildd
-EOT
+rpmbuild -ba $SPECFILE
 
-mkdir -p /tmp/buildd/{BUILD,BUILDROOT,RPMS,SPECS,SRPMS}
-
-ln -s /source /tmp/buildd/SOURCES
-
-fakeroot-sysv rpmbuild -ba $SPECFILE
-EOF
-
-find /tmp/buildd/RPMS /tmp/buildd/SRPMS -type f |xargs -I{} -n1 cp {} /result
+cp /root/rpmbuild/SRPMS/* /result
+cp /root/rpmbuild/RPMS/*/* /result

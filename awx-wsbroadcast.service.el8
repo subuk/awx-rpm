@@ -1,5 +1,5 @@
 [Unit]
-Description=AWX cbreceiver service
+Description=AWX channels worker service
 After=syslog.target network.target
 PartOf=awx.service
 After=awx.service
@@ -10,9 +10,10 @@ Group=awx
 EnvironmentFile=-/etc/sysconfig/awx
 Environment=AWX_SETTINGS_FILE=/etc/tower/settings.py
 Environment=PATH=/opt/awx/bin:/bin:/sbin:/usr/bin:/usr/sbin
-ExecStart=/usr/bin/scl enable rh-python36 rh-postgresql10 "awx-manage run_callback_receiver"
+ExecStart=/usr/bin/awx-manage run_wsbroadcast
 Restart=on-failure
 RestartSec=2s
 
 [Install]
 WantedBy=awx.service
+

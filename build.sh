@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-mkdir -p /tmp/awx-rpmbuild-cache
+mkdir -p /tmp/cache
 
 BUILD_SCRIPT=`pwd`/buildhelpers/build.sh
 case "$1" in
@@ -18,9 +18,9 @@ case "$1" in
 esac
 
 exec docker run --rm -i \
-    -v /home/build/awx-rpm-build/awx-rpm:/source \
-    -v /home/build/awx-rpm-build/awx-rpm/result:/result \
-    -v /tmp/awx-rpmbuild-cache:/cache \
+    -v /home/awx/awx-rpm:/source \
+    -v /home/awx/awx-rpm/result:/result \
+    -v /tmp/cache:/cache \
     -v $YUM_CONFIG:/etc/yum.conf \
     -v $BUILD_SCRIPT:/build.sh \
     $DOCKER_IMAGE /build.sh awx-build.spec

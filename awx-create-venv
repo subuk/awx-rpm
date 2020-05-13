@@ -1,0 +1,127 @@
+#!/usr/bin/python3
+
+import sys, getopt, os, datetime, rpm
+
+def helpscreen():
+   print('''
+awx-create-venv [-options] venvname
+
+Create a Virtual Enviroment for use with AWX-RPM, containing Ansible
+
+ options:
+  -p, --pythonversion        pythonversion to use (2 or 3), defaults to 3
+  -a, --ansibleversion       ansible version to install in venv, defaults to latest
+  -n, --venvname             name of venv, defaults to "{pythonversion}-{ansibleversion}-{date}"
+  -e, --venvpath             path where the venv will be created, defaults to /var/lib/awx/venv/
+  -f, --fulldeps             install a lot of awx specific dependencies in the venv, recommended for standard venv (default: off)
+   ''')
+
+def main(argv):
+
+   try:
+      opts, args = getopt.getopt(argv,"hp:e:a:n:f",["pythonversion","venvpath","ansibleversion","venvname","fulldeps"])
+   except getopt.GetoptError:
+      helpscreen()
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h' or opt == '--help':
+         helpscreen()
+         sys.exit()
+      elif opt in ("-p", "--pythonversion"):
+         pythonversion = arg
+      elif opt in ("-a", "--ansibleversion"):
+         ansibleversion = arg
+      elif opt in ("-n", "--venvname"):
+         venvname = arg
+      elif opt in ("-e", "--venvpath"):
+         venvpath = arg
+      elif opt in ("-f", "--fulldeps"):
+         fulldeps = 1
+
+   try:
+     fulldeps
+   except:
+     fulldeps = 0
+   
+         
+   try:
+     pythonversion
+   except:
+     pythonversion = 3
+   else:
+     if int(pythonversion) not in (2,3):
+       print(pythonversion,'is an invalid python version, please select 2 or 3')
+       sys.exit(3)
+
+   try:
+     ansibleversion
+   except:
+     if int(pythonversion) == 2:
+       ansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
+     else:
+       ansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' | sort -r -V | head -1").read().replace('\n','')
+   else:
+     if int(pythonversion) == 2:
+       checkansibleversion = os.popen("pip install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
+     else:
+       checkansibleversion = os.popen("pip3 install ansible== 2>&1 | grep -oE '(\(.*\))' | cut -f2- -d: | sed -E 's/( |\))//g' | tr ',' '\n' |grep '^%s$'" % ansibleversion).read().replace('\n','')
+     if checkansibleversion == "":
+       print(ansibleversion,'is an invalid ansible version')
+       sys.exit(3)
+
+   try:
+     venvpath
+   except:
+     venvpath = "/var/lib/awx/venv"
+   else:
+     if not os.path.isdir(venvpath):
+       print('The venv path:',venvpath,'doesn\'t exist')
+       sys.exit(3)
+
+   try:
+     venvname
+   except:
+     now = datetime.datetime.now()
+     venvname = 'python%s-ansible%s-%s%s%s' % (pythonversion,ansibleversion,now.day,now.month,now.year)
+
+   venvfullpath = '%s/%s' % (venvpath,venvname)
+
+   if os.path.isdir(venvfullpath):
+     print('The venv:',venvfullpath,'does already exist')
+     sys.exit(3)
+
+   print('''
+Create Virtual Enviroment at:
+  {venvpath}/{venvname}
+
+Using Python {pythonversion}
+
+Installing Ansible {ansibleversion}
+   '''.format(venvpath=venvpath,venvname=venvname,pythonversion=pythonversion,ansibleversion=ansibleversion))
+   
+   if os.path.isfile("/usr/bin/virtualenv"):
+      virtualenvexe = "virtualenv"
+   else:
+      virtualenvexe = "virtualenv-3"
+   
+   if int(pythonversion) == 2:
+     print(os.popen('%s %s' % (virtualenvexe,venvfullpath)).read())
+     print(os.popen('%s/bin/pip install python-memcached psutil' % (venvfullpath)).read())
+     print(os.popen('%s/bin/pip install -U \"ansible == %s\"' % (venvfullpath,ansibleversion)).read())
+   else:
+     print(os.popen('%s %s' % (virtualenvexe,venvfullpath)).read())
+     print(os.popen('%s/bin/pip3 install python-memcached psutil' % (venvfullpath)).read())
+     print(os.popen('%s/bin/pip3 install -U "ansible == %s"' % (venvfullpath,ansibleversion)).read())
+
+   if (fulldeps):
+     if int(pythonversion) == 2:
+        print(os.popen('for i in `cat /usr/share/doc/ansible-awx/ansible-core-reqs.txt`; do %s/bin/pip install $i; done' % (venvfullpath)).read())
+     else:
+        print(os.popen('for i in `cat /usr/share/doc/ansible-awx/ansible-core-reqs.txt`; do %s/bin/pip3 install $i; done' % (venvfullpath)).read())
+
+   if not os.path.islink("/var/lib/awx/venv/ansible"):
+     print("No default Ansible is set, using this environment: %s" %(venvfullpath))
+     os.symlink(venvfullpath,"/var/lib/awx/venv/ansible")
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
